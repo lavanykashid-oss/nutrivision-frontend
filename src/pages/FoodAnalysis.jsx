@@ -375,6 +375,7 @@ export default function App() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const howItWorks = [
     {
@@ -402,8 +403,9 @@ export default function App() {
       setError("Please upload a valid image file (JPG, PNG).");
       return;
     }
-    setSelectedFile(file);
     setError(null);
+    setSelectedFile(file);
+    
     setFileName(file.name);
 
     const reader = new FileReader();
@@ -432,6 +434,7 @@ export default function App() {
   const handleAnalyze = async () => {
   try {
     setLoading(true);
+    setError(null);
 
     const formData = new FormData();
 
@@ -439,8 +442,11 @@ export default function App() {
       formData.append("image", selectedFile);
     }
 
-    formData.append("food_name", foodName);
+    if (foodName.trim()){
+        formData.append("food_name", foodName);
+    }
 
+    
     const response = await fetch(
       "http://localhost:5000/api/v1/food/analyze",
       {
@@ -450,11 +456,16 @@ export default function App() {
     );
 
     const data = await response.json();
+    console.log("API Response:", data);
+
+    
 
     setResult(data);
+    
 
   } catch (error) {
     console.error(error);
+    setError("Server connection Failed");
   } finally {
     setLoading(false);
   }
@@ -495,7 +506,9 @@ export default function App() {
           <div className="lg:col-span-3 space-y-5">
             <AnimatePresence mode="wait">
               {result ? (
-                <ResultPanel key="result" data={result} onReset={handleReset} />
+                <ResultPanel key="result" 
+                data={result} 
+                onReset={handleReset} />
               ) : (
                 <motion.div
                   key="input"
