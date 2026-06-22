@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   Camera,
+  LogOut,
   LayoutDashboard,
   History,
   MessageCircle,
@@ -26,10 +27,10 @@ const user = {
 };
 
 const navLinks = [
-  { label: "Home", icon: Home, href: "#" },
-  { label: "Dashboard", icon: LayoutDashboard, href: "#dashboard" },
-  { label: "History", icon: History, href: "#history" },
-  { label: "Coach", icon: MessageCircle, href: "#coach" },
+  { label: "Home", icon: Home, path: "/landing" },
+  { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+  { label: "History", icon: History, path: "/history" },
+  { label: "Coach", icon: MessageCircle, path: "/coach" },
 ];
 
 const featureCards = [
@@ -107,11 +108,15 @@ export default function App() {
 
           {/* Nav Links */}
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map(({ label, icon: Icon, href }) => (
-              <a
+            {navLinks.map(({ label, icon: Icon, path}) => (
+              <button
                 key={label}
-                href={href}
-                onClick={() => setActiveNav(label)}
+                onClick={() =>{
+                  setActiveNav(label);
+                  navigate(path);
+                  }}
+                
+                
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
                   activeNav === label
                     ? "bg-secondary text-primary"
@@ -120,7 +125,7 @@ export default function App() {
               >
                 <Icon className="w-3.5 h-3.5" />
                 {label}
-              </a>
+              </button>
             ))}
           </nav>
 
@@ -162,13 +167,14 @@ export default function App() {
                 alt={user.name}
                 className="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all"
               />
-              <span className="hidden sm:block text-sm font-medium text-foreground">{user.name}</span>
-              <button 
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
-                
-                Logout
-              </button>
+              <div className="hidden md:flex items-center">
+            <button 
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
+              <LogOut className="w-4 h-4" />
+              Logout
+            </button>
+          </div>
             </div>
           </div>
         </div>

@@ -17,6 +17,12 @@ import {
   CheckCircle2,
   Camera,
   Star,
+  Home,
+  LayoutDashboard,
+  History,
+  MessageCircle,
+  
+  
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router-dom";
@@ -55,10 +61,19 @@ const mockAnalysis = {
   },
 };
 
+
 // ─── Navbar ──────────────────────────────────────────────────────────────────
+const navLinks = [
+  { label: "Home", icon: Home, path: "/landing" },
+  { label: "Dashboard", icon: LayoutDashboard, path: "/landing" },
+  { label: "History", icon: History, path: "/history" },
+  { label: "Coach", icon: MessageCircle, path: "/coach" },
+  { label: "Analytics", icon: BarChart2, path: "/analytics" },
+];
+
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const navLinks = ["Home", "Dashboard", "History", "Coach"];
+  
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -68,38 +83,39 @@ function Navbar() {
 
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
+    
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5 flex-shrink-0">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Leaf className="w-4 h-4 text-white" />
             </div>
-            <span
-              className="font-bold text-lg text-foreground"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              NutriVision{" "}
-              <span className="text-primary">AI</span>
+            <span className="text-[15px] font-bold text-foreground tracking-tight">
+              NutriVision <span className="text-primary">AI</span>
             </span>
           </div>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1 ml-4 flex-1">
             {navLinks.map((link) => (
               <button
-                key={link}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  link === ""
-                    ? "bg-secondary text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                }`}
+                key={link.label}
+                onClick={() => 
+                    
+                    navigate(link.path)
+                }
+                   className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 "
+                   
+            
               >
-                {link}
+                <link.icon className="w-4 h-4" />
+                {link.label}
               </button>
             ))}
-          </div>
+          </nav>
+          
+        
 
           {/* Desktop logout */}
           <div className="hidden md:flex items-center">
@@ -153,8 +169,9 @@ function Navbar() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-    </nav>
+      </header>
+    
+    
   );
 }
 

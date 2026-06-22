@@ -4,12 +4,15 @@ import Register from "./pages/Register"
 import Landing from "./pages/Landing"
 import ProtectedRoute from "./components/ProtectedRoute";
 import FoodAnalysis from "./pages/FoodAnalysis";
+import History from "./pages/History";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register/>}/>
+       
         <Route path="/landing" element={
           <ProtectedRoute>
           <Landing/>
@@ -20,6 +23,11 @@ function App() {
           <FoodAnalysis/>
           </ProtectedRoute> 
         }/>
+        <Route path="/history" element={
+          <ProtectedRoute>
+          <History/>
+          </ProtectedRoute> 
+        }/> 
       </Routes>
     </BrowserRouter>
   );
