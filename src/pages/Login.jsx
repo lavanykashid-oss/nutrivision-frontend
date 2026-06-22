@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 // ─── NutriVision AI Design Tokens ───────────────────────────────────────────
 const TOKEN = {
@@ -118,6 +119,7 @@ export default function App() {
   const [emailFocus, setEmailFocus] = useState(false);
   const [passFocus, setPassFocus] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
   e.preventDefault();
@@ -146,8 +148,9 @@ export default function App() {
         "token",
         data.token
       );
-      alert("Login Successful");
-      console.log(data);
+      navigate("/landing");
+    
+      
     } else {
       alert(data.message);
     }
