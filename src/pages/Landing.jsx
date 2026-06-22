@@ -17,6 +17,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const user = {
   name: "Sarah",
@@ -79,6 +80,12 @@ const recentMeals = [
 export default function App() {
   const [activeNav, setActiveNav] = useState("Home");
   const [searchFocused, setSearchFocused] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
     <div
@@ -156,6 +163,11 @@ export default function App() {
                 className="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all"
               />
               <span className="hidden sm:block text-sm font-medium text-foreground">{user.name}</span>
+              <button 
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg">
+                Logout
+              </button>
             </div>
           </div>
         </div>
