@@ -402,11 +402,17 @@ export default function App() {
       setError("Please upload a valid image file (JPG, PNG).");
       return;
     }
+    setSelectedFile(file);
     setError(null);
     setFileName(file.name);
+
     const reader = new FileReader();
-    reader.onload = (e) => setPreview(e);
+
+    reader.onload = (e) => {
+        setPreview(e.target.result);
+    };
     reader.readAsDataURL(file);
+    
   };
 
   const onDrop = useCallback((e) => {
@@ -423,15 +429,36 @@ export default function App() {
 
   const canAnalyze = foodName.trim().length > 0 || preview !== null;
 
-  const handleAnalyze = () => {
-    if (!canAnalyze) return;
-    setError(null);
+  const handleAnalyze = async () => {
+  try {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setResult(mockAnalysis.default);
-    }, 2200);
-  };
+
+    const formData = new FormData();
+
+    if (selectedFile) {
+      formData.append("image", selectedFile);
+    }
+
+    formData.append("food_name", foodName);
+
+    const response = await fetch(
+      "http://localhost:5000/api/v1/food/analyze",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    setResult(data);
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleReset = () => {
     setResult(null);
