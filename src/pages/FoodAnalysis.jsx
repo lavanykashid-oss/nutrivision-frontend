@@ -446,11 +446,16 @@ export default function App() {
         formData.append("food_name", foodName);
     }
 
+    const token = localStorage.getItem("token");
+
     
     const response = await fetch(
       "http://localhost:5000/api/v1/food/analyze",
       {
         method: "POST",
+        headers : {
+          Authorization : `Bearer ${token}`,
+        },
         body: formData,
       }
     );
