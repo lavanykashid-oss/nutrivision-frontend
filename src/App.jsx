@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register"
 import Landing from "./pages/Landing"
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import FoodAnalysis from "./pages/FoodAnalysis";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +15,11 @@ function App() {
           <Landing/>
         </ProtectedRoute>
       }/>
+         <Route path="/food-analysis" element={
+          <ProtectedRoute>
+          <FoodAnalysis/>
+          </ProtectedRoute> 
+        }/>
       </Routes>
     </BrowserRouter>
   );

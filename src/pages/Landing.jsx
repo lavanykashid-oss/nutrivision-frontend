@@ -165,7 +165,8 @@ export default function App() {
               <span className="hidden sm:block text-sm font-medium text-foreground">{user.name}</span>
               <button 
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg">
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
+                
                 Logout
               </button>
             </div>
@@ -215,6 +216,7 @@ export default function App() {
             {/* CTAs */}
             <div className="flex flex-wrap gap-4">
               <motion.button
+              onClick={() => navigate("/food-analysis")}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-[15px] shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"

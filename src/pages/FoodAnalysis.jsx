@@ -19,6 +19,7 @@ import {
   Star,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { useNavigate } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 const NutritionData = {
@@ -58,6 +59,13 @@ const mockAnalysis = {
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navLinks = ["Home", "Dashboard", "History", "Coach"];
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
 
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border shadow-sm">
@@ -83,7 +91,7 @@ function Navbar() {
               <button
                 key={link}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  link === "Dashboard"
+                  link === ""
                     ? "bg-secondary text-primary"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
@@ -95,7 +103,9 @@ function Navbar() {
 
           {/* Desktop logout */}
           <div className="hidden md:flex items-center">
-            <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
+            <button 
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
               <LogOut className="w-4 h-4" />
               Logout
             </button>
@@ -359,12 +369,12 @@ function ResultPanel({ data, onReset }) {
 export default function App() {
   const [foodName, setFoodName] = useState("");
   const [dragActive, setDragActive] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const [preview, setPreview] = useState(null);
+  const [fileName, setFileName] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<NutritionData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const fileInputRef = useRef(null);
 
   const howItWorks = [
     {
