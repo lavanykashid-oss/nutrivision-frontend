@@ -5,6 +5,7 @@ import Landing from "./pages/Landing"
 import ProtectedRoute from "./components/ProtectedRoute";
 import FoodAnalysis from "./pages/FoodAnalysis";
 import History from "./pages/History";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register/>}/>
-       
+        
         <Route path="/landing" element={
           <ProtectedRoute>
           <Landing/>
@@ -27,7 +28,13 @@ function App() {
           <ProtectedRoute>
           <History/>
           </ProtectedRoute> 
-        }/> 
+        }/>
+
+          <Route path="/dashboard" element={
+          <ProtectedRoute>
+          <Dashboard/>
+          </ProtectedRoute>
+        }/>  
       </Routes>
     </BrowserRouter>
   );

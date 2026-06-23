@@ -65,7 +65,7 @@ const mockAnalysis = {
 // ─── Navbar ──────────────────────────────────────────────────────────────────
 const navLinks = [
   { label: "Home", icon: Home, path: "/landing" },
-  { label: "Dashboard", icon: LayoutDashboard, path: "/landing" },
+  { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { label: "History", icon: History, path: "/history" },
   { label: "Coach", icon: MessageCircle, path: "/coach" },
   { label: "Analytics", icon: BarChart2, path: "/analytics" },
@@ -148,15 +148,18 @@ function Navbar() {
               <div className="py-3 flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <button
-                    key={link}
-                    onClick={() => setMenuOpen(false)}
+                    key={link.label}
+                    onClick={() => {
+                      navigate(link.path);
+                      setMenuOpen(false)
+                    }}
                     className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       link === "Dashboard"
                         ? "bg-secondary text-primary"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted"
                     }`}
                   >
-                    {link}
+                    {link.label}
                   </button>
                 ))}
                 <div className="border-t border-border mt-2 pt-2">

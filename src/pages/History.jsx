@@ -63,7 +63,7 @@ function ScoreRing({ score }) {
 
 const navLinks = [
   { label: "Home", icon: Home, path: "/landing" },
-  { label: "Dashboard", icon: LayoutDashboard, path: "/landing" },
+  { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { label: "History", icon: History, path: "/history" },
   { label: "Coach", icon: MessageCircle, path: "/coach" },
   { label: "Analytics", icon: BarChart2 },
@@ -284,6 +284,9 @@ const fetchHistory = async () => {
   <span>🥩 {meal.protein}g Protein</span>
   <span>🍞 {meal.carbs}g Carbs</span>
   <span>🥑 {meal.fat}g Fat</span>
+  <p>Fiber: {meal.fiber}g</p>
+  <p>Sugar: {meal.sugar}g</p>
+  <p>Sodium: {meal.sodium}mg</p>
 </div>
 
         <p className="text-sm text-muted-foreground">
