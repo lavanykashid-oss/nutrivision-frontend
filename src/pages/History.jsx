@@ -109,7 +109,7 @@ const fetchHistory = async () => {
 
   const filters = ["All", "Meals", "Snacks", "Drinks"];
 
-  const filtered = meals;
+  
     // .filter((m) => {
     //   if (activeFilter === "All") return true;
     //   const map = { Meals: "Meal", Snacks: "Snack", Drinks: "Drink" };
@@ -118,13 +118,80 @@ const fetchHistory = async () => {
     // .filter((m) => m.name.toLowerCase().includes(search.toLowerCase()))
     // .slice(0, visibleCount);
 
-  const allFiltered = meals;
+  
     // .filter((m) => {
     //   if (activeFilter === "All") return true;
     //   const map = { Meals: "Meal", Snacks: "Snack", Drinks: "Drink" };
     //   return m.type === map[activeFilter];
     // })
     // .filter((m) => m.name.toLowerCase().includes(search.toLowerCase()));
+
+
+  const allFiltered = meals.filter((meal) =>
+    meal.meal_name.toLowerCase().includes(search.toLowerCase())
+);
+
+  const filtered = allFiltered.slice(0, visibleCount);
+
+  const totalCalories = meals.reduce(
+  (sum, meal) => sum + (meal.calories || 0),
+  0
+);
+
+const totalProtein = meals.reduce(
+  (sum, meal) => sum + (meal.protein || 0),
+  0
+);
+
+const totalCarbs = meals.reduce(
+  (sum, meal) => sum + (meal.carbs || 0),
+  0
+);
+
+const totalFat = meals.reduce(
+  (sum, meal) => sum + (meal.fat || 0),
+  0
+);
+
+const totalFiber = meals.reduce(
+  (sum, meal) => sum + (meal.fiber || 0),
+  0
+);
+
+const totalHealthScore =
+  meals.length > 0
+    ? Math.round(
+        meals.reduce((sum, meal) => sum + 90, 0) / meals.length
+      )
+    : 0;
+
+const totalMeals = meals.length;
+
+
+
+  const deleteMeal = async (mealId) => {
+
+  try {
+
+    const token = localStorage.getItem("token");
+
+    await fetch(
+      `http://localhost:5000/api/v1/food/history/${mealId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // Refresh the history list
+    fetchHistory();
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div className="min-h-screen bg-background font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -287,10 +354,16 @@ const fetchHistory = async () => {
   <p>Fiber: {meal.fiber}g</p>
   <p>Sugar: {meal.sugar}g</p>
   <p>Sodium: {meal.sodium}mg</p>
+  <button
+  onClick={() => deleteMeal(meal.id)}
+  className="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+>
+  Delete
+</button>
 </div>
 
         <p className="text-sm text-muted-foreground">
-          Meal ID: {meal.id}
+          {new Date(meal.created_at).toLocaleString()}
         </p>
       </div>
     ))
@@ -323,21 +396,21 @@ const fetchHistory = async () => {
                   <BarChart2 className="w-4 h-4 text-primary" />
                   Total Analyses
                 </div>
-                <span className="font-bold text-foreground">28</span>
+                <span className="font-bold text-foreground">{meals.length}</span>
               </div>
               <div className="flex items-center justify-between py-2 border-b border-border">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Flame className="w-4 h-4 text-orange-400" />
-                  Avg Cal / Day
+                  Total Calories
                 </div>
-                <span className="font-bold text-foreground">1460 kcal</span>
+                <span className="font-bold text-foreground">{totalCalories.toFixed(1)}kcal</span>
               </div>
               <div className="flex items-center justify-between py-2">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Star className="w-4 h-4 text-yellow-400" />
                   Avg Health Score
                 </div>
-                <span className="font-bold text-green-600">81/100</span>
+                <span className="font-bold text-green-600">{totalHealthScore}/100</span>
               </div>
             </div>
           </div>
