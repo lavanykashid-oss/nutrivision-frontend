@@ -127,11 +127,23 @@ const fetchHistory = async () => {
     // .filter((m) => m.name.toLowerCase().includes(search.toLowerCase()));
 
 
-  const allFiltered = meals.filter((meal) =>
-    meal.meal_name.toLowerCase().includes(search.toLowerCase())
-);
+  const allFiltered = meals
+  .filter((meal) => {
+    if (activeFilter === "All") return true;
 
-  const filtered = allFiltered.slice(0, visibleCount);
+    const filterMap = {
+      Meals: "Meal",
+      Snacks: "Snack",
+      Drinks: "Drink",
+    };
+
+    return meal.meal_type === filterMap[activeFilter];
+  })
+  .filter((meal) =>
+    meal.meal_name.toLowerCase().includes(search.toLowerCase())
+  );
+
+const filtered = allFiltered.slice(0, visibleCount);
 
   const totalCalories = meals.reduce(
   (sum, meal) => sum + (meal.calories || 0),
@@ -289,7 +301,7 @@ const totalMeals = meals.length;
           <div className="flex flex-col sm:flex-row gap-3 mb-5">
             {/* Tabs */}
             <div className="flex gap-1 bg-muted rounded-xl p-1 w-fit">
-              {filters.map((f) => (
+              {/* {filters.map((f) => (
                 <button
                   key={f}
                   onClick={() => { setActiveFilter(f); setVisibleCount(4); }}
@@ -301,7 +313,23 @@ const totalMeals = meals.length;
                 >
                   {f}
                 </button>
-              ))}
+              ))} */}
+              {filters.map((filter) => (
+  <button
+    key={filter}
+    onClick={() => {
+      setActiveFilter(filter);
+      setVisibleCount(4);
+    }}
+    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+      activeFilter === filter
+        ? "bg-primary text-white"
+        : "bg-muted text-muted-foreground hover:bg-accent"
+    }`}
+  >
+    {filter}
+  </button>
+))}
             </div>
 
             {/* Search + filter */}
