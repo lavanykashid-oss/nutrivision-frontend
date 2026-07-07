@@ -131,7 +131,7 @@ export default function App() {
           {/* Right side */}
           <div className="flex items-center gap-3">
             {/* Search */}
-            <div
+            {/* <div
               className={`hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 ${
                 searchFocused ? "border-primary bg-white shadow-sm" : "border-border bg-muted"
               }`}
@@ -144,7 +144,7 @@ export default function App() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
               />
-            </div>
+            </div> */}
 
             {/* Notification */}
             <button className="relative w-9 h-9 rounded-lg bg-muted flex items-center justify-center hover:bg-accent transition-colors">

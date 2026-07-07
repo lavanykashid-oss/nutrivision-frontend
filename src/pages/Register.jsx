@@ -1,5 +1,7 @@
 const API_URL = "http://127.0.0.1:5000/api/v1/auth/register";
 import { useState } from "react";
+ import{Leaf,
+} from "lucide-react"
 
 // ─── NutriVision AI Design Tokens (same as Login) ───────────────────────────
 const TOKEN = {
@@ -352,16 +354,22 @@ export default function App() {
 
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 1 }}>
-            <div style={{
+            {/* <div style={{
               width: 38, height: 38, borderRadius: 10,
               background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)",
               display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            }}> */}
+              {/* <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z" fill="white" opacity="0.9" />
                 <path d="M12 6c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="white" opacity="0.5" />
               </svg>
-            </div>
+            </div> */}
+
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                <Leaf className="w-4 h-4 text-white" />
+              </div>
+
+            
             <span style={{ fontFamily: TOKEN.fontDisplay, fontWeight: 700, fontSize: 16, color: "white", letterSpacing: "-0.3px" }}>
               NutriVision AI
             </span>
