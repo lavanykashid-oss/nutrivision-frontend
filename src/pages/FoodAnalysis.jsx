@@ -78,6 +78,7 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/");
   };
 
@@ -467,7 +468,8 @@ export default function App() {
     }
 
     
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")||
+                  sessionStorage.getItem("token");
 
     
     const response = await fetch(

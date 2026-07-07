@@ -145,14 +145,18 @@ export default function App() {
     const data = await response.json();
 
     if (response.ok) {
-      localStorage.setItem(
-        "token",
-        data.token
-      );
-      navigate("/landing");
-    
-      
-    } else {
+      console.log("Remember:", remember);
+
+  if (remember) {
+    localStorage.setItem("token", data.token);
+  } else {
+    sessionStorage.setItem("token", data.token);
+  }
+
+  navigate("/landing");
+}
+
+     else {
       alert(data.message);
     }
 
@@ -459,7 +463,7 @@ export default function App() {
                 </div>
                 Remember Me
               </label>
-              <a href="#" style={{
+              {/* <a href="#" style={{
                 fontSize: 13,
                 color: TOKEN.primary,
                 textDecoration: "none",
@@ -467,7 +471,7 @@ export default function App() {
               }}
                 onMouseOver={e => (e.currentTarget.style.textDecoration = "underline")}
                 onMouseOut={e => (e.currentTarget.style.textDecoration = "none")}
-              >Forgot Password?</a>
+              >Forgot Password?</a> */}
             </div>
 
             {/* Login Button */}

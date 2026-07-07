@@ -85,6 +85,7 @@ export default function App() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/");
   };
 

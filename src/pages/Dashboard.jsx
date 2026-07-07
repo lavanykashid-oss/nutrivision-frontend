@@ -110,7 +110,8 @@ const fetchDashboard = async () => {
 
   try {
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")||
+    sessionStorage.getItem("token");
 
     const response = await fetch(
       "http://localhost:5000/api/v1/food/dashboard",
