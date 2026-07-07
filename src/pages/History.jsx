@@ -11,12 +11,29 @@ import {
   User,
   Menu,
   X,
-  Flame,
-  Star,
+  LogOut,
   TrendingUp,
   Lightbulb,
   Filter,
   Leaf,
+  Flame,
+  Beef,
+  Wheat,
+  Droplets,
+  Apple,
+  Candy,
+  Salad,
+  ShieldCheck,
+  Sparkles,
+  Brain,
+  HeartPulse,
+  BadgeAlert,
+  Tags,
+  FlaskConical,
+  Pill,
+  Trash2,
+  Clock3,
+  Star
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -66,7 +83,7 @@ const navLinks = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { label: "History", icon: History, path: "/history" },
   { label: "Coach", icon: MessageCircle, path: "/coach" },
-  { label: "Analytics", icon: BarChart2 },
+  // { label: "Analytics", icon: BarChart2 },
 ];
 
 export default function App() {
@@ -76,6 +93,11 @@ export default function App() {
   const [visibleCount, setVisibleCount] = useState(4);
   const [meals, setMeals] = useState([]);
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   useEffect(() => {
   fetchHistory();
@@ -126,22 +148,31 @@ const fetchHistory = async () => {
     // })
     // .filter((m) => m.name.toLowerCase().includes(search.toLowerCase()));
 
-
-  const allFiltered = meals
+const allFiltered = meals
   .filter((meal) => {
     if (activeFilter === "All") return true;
 
-    const filterMap = {
-      Meals: "Meal",
-      Snacks: "Snack",
-      Drinks: "Drink",
-    };
+    const type = meal.meal_type?.toLowerCase();
 
-    return meal.meal_type === filterMap[activeFilter];
+    switch (activeFilter) {
+      case "Meals":
+        return (
+          type === "breakfast" ||
+          type === "lunch" ||
+          type === "dinner"
+        );
+
+      case "Snacks":
+        return type === "snack";
+
+      case "Drinks":
+        return type === "drink";
+
+      default:
+        return true;
+    }
   })
-  .filter((meal) =>
-    meal.meal_name.toLowerCase().includes(search.toLowerCase())
-  );
+  
 
 const filtered = allFiltered.slice(0, visibleCount);
 
@@ -206,17 +237,22 @@ const totalMeals = meals.length;
 };
 
   return (
-    <div className="min-h-screen bg-background font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
-      {/* ── TOP NAV ── */}
-      <header className="bg-white border-b border-border sticky top-0 z-30 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center h-14 gap-4">
+     <div
+      className="min-h-screen bg-background text-foreground"
+      style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
+    >
+      {/* Navbar */}
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
           {/* Logo */}
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Leaf className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-sm text-foreground hidden sm:block">NutriVision AI</span>
+            <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
+            
           </div>
+         
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1 ml-4 flex-1">
@@ -241,14 +277,24 @@ const totalMeals = meals.length;
           </nav>
 
           {/* Profile */}
-          <div className="ml-auto flex items-center gap-2">
+          {/* <div className="ml-auto flex items-center gap-2">
             <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border text-sm text-foreground hover:bg-accent transition-colors">
               <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                 <User className="w-3.5 h-3.5 text-primary" />
               </div>
               <span className="hidden sm:inline font-medium">Profile</span>
               <ChevronRight className="w-3.5 h-3.5 text-muted-foreground hidden sm:inline" />
+            </button> */}
+
+            <div className="hidden md:flex items-center">
+            <button 
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
+              <LogOut className="w-4 h-4" />
+              Logout
             </button>
+          
+            </div>
             {/* Mobile hamburger */}
             <button
               className="md:hidden p-2 rounded-lg hover:bg-accent transition-colors"
@@ -260,7 +306,7 @@ const totalMeals = meals.length;
               {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
-        </div>
+        
 
         {/* Mobile nav drawer */}
         {mobileNavOpen && (
@@ -365,34 +411,214 @@ const totalMeals = meals.length;
         key={meal.id}
         className="bg-white rounded-2xl border border-border p-4 hover:shadow-md transition-all"
       >
-        <h3 className="font-semibold text-lg text-foreground">
-          {meal.meal_name}
-        </h3>
+       
 
 
-       <p className="text-sm text-gray-500">
-        {meal.date}
-       </p>
+       <div className="flex justify-between items-start">
 
-       <div className="mt-2 flex gap-4 text-sm">
-  <span>🔥 {meal.calories} kcal</span>
-  <span>🥩 {meal.protein}g Protein</span>
-  <span>🍞 {meal.carbs}g Carbs</span>
-  <span>🥑 {meal.fat}g Fat</span>
-  <p>Fiber: {meal.fiber}g</p>
-  <p>Sugar: {meal.sugar}g</p>
-  <p>Sodium: {meal.sodium}mg</p>
-  <button
-  onClick={() => deleteMeal(meal.id)}
-  className="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
->
-  Delete
-</button>
+<div>
+
+<h3 className="text-xl font-bold">
+{meal.meal_name}
+</h3>
+
 </div>
 
-        <p className="text-sm text-muted-foreground">
-          {new Date(meal.created_at).toLocaleString()}
-        </p>
+<div className="flex items-center gap-1 text-gray-500 text-sm">
+
+<Clock3 className="w-4 h-4"/>
+
+{new Date(meal.created_at).toLocaleString()}
+
+</div>
+
+</div>
+       <div className="mt-4">
+
+  {/* Nutrition Row */}
+  
+
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mt-5">
+
+<div className="bg-emerald-50 rounded-xl p-3 text-center">
+<Flame className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
+<p className="text-lg font-bold">{meal.calories}</p>
+<p className="text-xs text-gray-500">Calories</p>
+</div>
+
+
+    
+<div className="bg-emerald-50 rounded-xl p-3 text-center">
+<Beef className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
+<p className="text-lg font-bold">{meal.protein}</p>
+<p className="text-xs text-gray-500">Protien</p>
+</div>
+
+
+    <div className="bg-emerald-50 rounded-xl p-3 text-center">
+<Wheat className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
+<p className="text-lg font-bold">{meal.carbs}</p>
+<p className="text-xs text-gray-500">Carbs</p>
+</div>
+
+    <div className="bg-emerald-50 rounded-xl p-3 text-center">
+<Droplets className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
+<p className="text-lg font-bold">{meal.fat}</p>
+<p className="text-xs text-gray-500">Fats</p>
+</div>
+
+    <div className="bg-emerald-50 rounded-xl p-3 text-center">
+<Apple className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
+<p className="text-lg font-bold">{meal.fiber}</p>
+<p className="text-xs text-gray-500">Fiber</p>
+</div>
+
+
+    <div className="bg-emerald-50 rounded-xl p-3 text-center">
+<Candy className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
+<p className="text-lg font-bold">{meal.sugar}</p>
+<p className="text-xs text-gray-500">Sugar</p>
+</div>
+
+
+    <div className="bg-emerald-50 rounded-xl p-3 text-center">
+<FlaskConical className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
+<p className="text-lg font-bold">{meal.sodium}</p>
+<p className="text-xs text-gray-500">Sodium</p>
+</div>
+
+  </div>
+
+  {/* Details */}
+  <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-6 mt-6">
+
+    {/* AI Info */}
+    
+
+    {/* Vitamins */}
+    <div>
+
+      <h4 className="font-semibold mb-3">Vitamins</h4>
+
+      <div className="flex flex-wrap gap-2">
+
+        {meal.vitamins?.map((v, i) => (
+          <span
+            key={i}
+            className="bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm"
+          >
+            {v}
+          </span>
+        ))}
+
+      </div>
+
+    </div>
+
+    {/* Minerals */}
+    <div>
+
+      <h4 className="font-semibold mb-3">Minerals</h4>
+
+      <div className="flex flex-wrap gap-2">
+
+        {meal.minerals?.map((m, i) => (
+          <span
+            key={i}
+            className="bg-blue-100 text-blue-700 rounded-full px-3 py-1 text-sm"
+          >
+            {m}
+          </span>
+        ))}
+
+      </div>
+
+    </div>
+
+    {/* Tags */}
+    <div>
+
+      <h4 className="font-semibold mb-3">Tags</h4>
+
+      <div className="flex flex-wrap gap-2">
+
+        {meal.tags?.map((tag, i) => (
+          <span
+            key={i}
+            className="bg-yellow-100 text-yellow-700 rounded-full px-3 py-1 text-sm"
+          >
+            {tag}
+          </span>
+        ))}
+
+      </div>
+
+    </div>
+
+    {/* Tips */}
+    <div>
+
+      <h4 className="font-semibold text-green-700 mb-3">
+        Health Tips
+      </h4>
+
+      <ul className="list-disc pl-5 space-y-2 text-sm">
+
+        {meal.healthTips?.map((tip, i) => (
+          <li key={i}>{tip}</li>
+        ))}
+
+      </ul>
+
+      {meal.warnings?.length > 0 && (
+        <>
+          <h4 className="font-semibold text-red-600 mt-5">
+            Warnings
+          </h4>
+
+          <ul className="list-disc pl-5 mt-2 space-y-2 text-sm">
+
+            {meal.warnings.map((warning, i) => (
+              <li key={i}>{warning}</li>
+            ))}
+
+          </ul>
+        </>
+      )}
+
+    </div>
+
+  </div>
+  <div className="bg-primary/5 rounded-xl p-3 mt-3">
+
+<h4 className="font-semibold flex items-center gap-2 mb-4">
+<Brain className="w-5 h-5 text-primary"/>
+AI Analysis
+</h4>
+
+<div className="grid md:grid-cols-2 gap-3">
+
+<p><strong>Meal Type:</strong> {meal.mealTypeAI}</p>
+
+<p><strong>Serving:</strong> {meal.servingSize}</p>
+
+<p><strong>Confidence:</strong> {meal.confidence}%</p>
+
+<p><strong>Health Score:</strong> {meal.healthScore}/100</p>
+
+</div>
+
+</div>
+
+  <button
+    onClick={() => deleteMeal(meal.id)}
+    className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold text-[15px] shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
+  >
+    Delete Meal
+  </button>
+ 
+</div>
+         
       </div>
     ))
   )}
@@ -438,7 +664,7 @@ const totalMeals = meals.length;
                   <Star className="w-4 h-4 text-yellow-400" />
                   Avg Health Score
                 </div>
-                <span className="font-bold text-green-600">{totalHealthScore}/100</span>
+                <span className="font-bold text-green-600">{totalHealthScore.toFixed()}/100</span>
               </div>
             </div>
           </div>

@@ -265,7 +265,11 @@ export default function App() {
         body: JSON.stringify({
           full_name: form.fullName,
           email: form.email,
-          password: form.password
+          password: form.password,
+          dob: form.dob,
+          age: form.age,
+          weight: form.weight,
+          goal: form.goal
         })
       }
     );

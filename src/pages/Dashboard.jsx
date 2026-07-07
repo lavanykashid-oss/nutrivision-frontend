@@ -13,6 +13,7 @@ import {
   LayoutDashboard,
   BarChart2,
   Home,
+  Leaf,
   MessageCircle,
 } from "lucide-react";
 import {
@@ -143,7 +144,7 @@ if (!dashboardData) {
             {/* Logo */}
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Apple size={16} className="text-primary-foreground" />
+                <Leaf className="w-4 h-4 text-white" />
               </div>
               <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
             </div>
@@ -215,7 +216,7 @@ if (!dashboardData) {
         {/* Page Header */}
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Monday, June 23 — Track your nutrition & health goals</p>
+          <p className="text-sm text-muted-foreground mt-0.5"></p>
         </div>
 
         {/* Stat Cards */}
@@ -345,9 +346,9 @@ if (!dashboardData) {
             {/* Weekly summary strip */}
             <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-border">
               {[
-                { label: "Avg Calories", value: "1,817" },
-                { label: "Avg Protein", value: "78g" },
-                { label: "Days Tracked", value: "6/7" },
+                { label: "Avg Calories", value: dashboardData.avg_calories },
+                { label: "Avg Protein", value: `${dashboardData.avg_protein}g` },
+                { label: "Days Tracked", value: `${dashboardData.days_tracked}/7`},
               ].map(({ label, value }) => (
                 <div key={label} className="text-center">
                   <p className="text-sm font-semibold text-foreground">{value}</p>
@@ -369,9 +370,19 @@ if (!dashboardData) {
     key={index}
     className="flex items-center gap-3 p-3 rounded-xl bg-muted/60 hover:bg-accent/60 transition-colors"
   >
-    <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center text-xl shadow-sm flex-shrink-0">
-      🍎
-    </div>
+    <div className="w-10 h-10 rounded-lg overflow-hidden shadow-sm flex-shrink-0">
+  {meal.image_url ? (
+    <img
+      src={`http://localhost:5000/${meal.image_url}`}
+      alt={meal.meal_name}
+      className="w-full h-full object-cover"
+    />
+  ) : (
+    
+     "🍎"
+    
+  )}
+</div>
 
     <div className="flex-1 min-w-0">
       <p className="text-sm font-semibold text-foreground truncate">

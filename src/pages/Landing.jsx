@@ -101,9 +101,8 @@ export default function App() {
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Leaf className="w-4 h-4 text-white" />
             </div>
-            <span className="text-[15px] font-bold text-foreground tracking-tight">
-              NutriVision <span className="text-primary">AI</span>
-            </span>
+            <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
+            
           </div>
 
           {/* Nav Links */}
@@ -154,19 +153,19 @@ export default function App() {
             </button>
 
             {/* Streak badge */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary border border-primary/20">
+            {/* <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary border border-primary/20">
               <span className="text-base">🔥</span>
               <span className="text-sm font-semibold text-primary">{user.streak}</span>
               <span className="text-xs text-muted-foreground">day streak</span>
-            </div>
+            </div> */}
 
             {/* Avatar */}
-            <div className="flex items-center gap-2.5 cursor-pointer group">
+            {/* <div className="flex items-center gap-2.5 cursor-pointer group">
               <img
                 src={user.avatar}
                 alt={user.name}
                 className="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all"
-              />
+              /> */}
               <div className="hidden md:flex items-center">
             <button 
             onClick={handleLogout}
@@ -174,7 +173,7 @@ export default function App() {
               <LogOut className="w-4 h-4" />
               Logout
             </button>
-          </div>
+          
             </div>
           </div>
         </div>
@@ -336,12 +335,12 @@ export default function App() {
                 Powerful tools to help you eat smarter and live healthier.
               </p>
             </div>
-            <a
+            {/* <a
               href="#features"
               className="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
             >
               See all features <ChevronRight className="w-4 h-4" />
-            </a>
+            </a> */}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -368,95 +367,11 @@ export default function App() {
         </section>
 
         {/* Recent Meals + Quick Stats */}
-        <section className="grid lg:grid-cols-3 gap-6">
-          {/* Recent Meals */}
-          <div className="lg:col-span-2 bg-white rounded-2xl border border-border p-6">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-lg font-bold text-foreground">Recent Meals</h3>
-              <a href="#history" className="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
-                View all <ChevronRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-            <div className="space-y-3">
-              {recentMeals.map((meal) => (
-                <div
-                  key={meal.name}
-                  className="flex items-center justify-between p-3.5 rounded-xl bg-muted hover:bg-accent transition-colors cursor-pointer group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-                      <Leaf className="w-4 h-4 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                        {meal.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground">{meal.time}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <p className="text-sm font-bold text-foreground">{meal.calories}</p>
-                      <p className="text-xs text-muted-foreground">kcal</p>
-                    </div>
-                    <div
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold"
-                      style={{
-                        background: `conic-gradient(#1a6b3c ${meal.score}%, #eef2ec ${meal.score}%)`,
-                        color: "#1a6b3c",
-                      }}
-                    >
-                      <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[10px] font-bold text-primary">
-                        {meal.score}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Daily Summary */}
-          <div className="bg-primary rounded-2xl p-6 text-white flex flex-col">
-            <h3 className="text-base font-bold mb-1 text-white/90">Today's Summary</h3>
-            <p className="text-xs text-white/60 mb-6">Saturday, June 21</p>
-
-            <div className="flex-1 space-y-4">
-              {[
-                { label: "Calories", current: 1240, goal: 2000, unit: "kcal" },
-                { label: "Protein", current: 68, goal: 120, unit: "g" },
-                { label: "Water", current: 5, goal: 8, unit: "glasses" },
-              ].map(({ label, current, goal, unit }) => {
-                const pct = Math.round((current / goal) * 100);
-                return (
-                  <div key={label}>
-                    <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-white/80 font-medium">{label}</span>
-                      <span className="text-white font-semibold">
-                        {current}{unit} <span className="text-white/50">/ {goal}{unit}</span>
-                      </span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-white/20">
-                      <div
-                        className="h-full rounded-full bg-white transition-all duration-700"
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <button className="mt-6 w-full py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-sm font-semibold transition-colors border border-white/20 flex items-center justify-center gap-2">
-              <LayoutDashboard className="w-4 h-4" />
-              Full Dashboard
-            </button>
-          </div>
-        </section>
+        {/*  */}
       </main>
 
       {/* Footer strip */}
-      <footer className="border-t border-border mt-16 py-6">
+      {/* <footer className="border-t border-border mt-16 py-6">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 rounded bg-primary flex items-center justify-center">
@@ -475,7 +390,7 @@ export default function App() {
             ))}
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

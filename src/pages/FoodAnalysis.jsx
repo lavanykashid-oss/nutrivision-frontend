@@ -463,9 +463,10 @@ export default function App() {
     }
 
     if (foodName.trim()){
-        formData.append("food_name", foodName);
+      formData.append("food_name", foodName);
     }
 
+    
     const token = localStorage.getItem("token");
 
     
@@ -799,3 +800,4 @@ export default function App() {
     </div>
   );
 }
+

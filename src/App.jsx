@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FoodAnalysis from "./pages/FoodAnalysis";
 import History from "./pages/History";
 import Dashboard from "./pages/Dashboard";
+import Coach from "./pages/Coach";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register/>}/>
+        {/* <Route path="/coach" element={<Coach/>}/> */}
         
         <Route path="/landing" element={
           <ProtectedRoute>
@@ -35,6 +37,14 @@ function App() {
           <Dashboard/>
           </ProtectedRoute>
         }/>  
+         <Route path ="/coach" element={
+          <ProtectedRoute>
+            <Coach/>
+          </ProtectedRoute>
+         }/>
+ 
+
+
       </Routes>
     </BrowserRouter>
   );
