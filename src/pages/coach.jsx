@@ -219,7 +219,7 @@ const deleteSession = async (sessionId) => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/v1/coach/session/${sessionId}`,
+      `${import.meta.env.VITE_API_URL}/api/v1/coach/session/${sessionId}`,
       {
         method: "DELETE",
         headers: {
