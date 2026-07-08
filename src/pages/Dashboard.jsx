@@ -113,8 +113,8 @@ const fetchDashboard = async () => {
     const token = localStorage.getItem("token")||
     sessionStorage.getItem("token");
 
-    const response = await fetch(
-      "http://localhost:5000/api/v1/food/dashboard",
+    const response = await 
+      fetch(`${import.meta.env.VITE_API_URL}/api/v1/food/dashboard`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

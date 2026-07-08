@@ -219,7 +219,7 @@ const totalMeals = meals.length;
     const token = localStorage.getItem("token");
 
     await fetch(
-      `http://localhost:5000/api/v1/food/history/${mealId}`,
+      `${import.meta.env.VITE_API_URL}/api/v1/food/history/${mealId}`,
       {
         method: "DELETE",
         headers: {

@@ -257,8 +257,8 @@ export default function App() {
   try {
     setLoading(true);
 
-    const response = await fetch(
-      "http://127.0.0.1:5000/api/v1/auth/register",
+    const response = await 
+      fetch(`${import.meta.env.VITE_API_URL}/api/v1/auth/register`,
       {
         method: "POST",
         headers: {
