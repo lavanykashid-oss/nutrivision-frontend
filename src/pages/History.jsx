@@ -110,7 +110,7 @@ const fetchHistory = async () => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      "http://localhost:5000/api/v1/food/history",
+      `${import.meta.env.VITE_API_URL}/api/v1/food/history`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
