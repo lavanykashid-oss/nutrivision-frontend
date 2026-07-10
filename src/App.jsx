@@ -6,7 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FoodAnalysis from "./pages/FoodAnalysis";
 import History from "./pages/History";
 import Dashboard from "./pages/Dashboard";
-import coach from "./pages/coach";
+import Coach from "./pages/coach";
 
 function App() {
   return (
@@ -39,7 +39,7 @@ function App() {
         }/>  
          <Route path ="/coach" element={
           <ProtectedRoute>
-            <coach/>
+            <Coach/>
           </ProtectedRoute>
          }/>
  

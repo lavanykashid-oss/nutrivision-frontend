@@ -61,6 +61,7 @@ const navLinks = [
 ];
 
 export default function App() {
+  console.log("coach component mounted");
   const [sessions, setSessions] = useState(INITIAL_SESSIONS);
   const [activeSessionId, setActiveSessionId] = useState(null);
   const [currentSessionId, setCurrentSessionId] = useState(null);
