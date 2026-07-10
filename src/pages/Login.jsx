@@ -179,7 +179,9 @@ export default function App() {
       padding: "20px",
     }}>
       {/* Card wrapper */}
-      <div style={{
+      <div 
+      className="nutri-card"
+      style={{
         display: "flex",
         width: "100%",
         maxWidth: 960,
@@ -190,7 +192,9 @@ export default function App() {
       }}>
 
         {/* ── LEFT PANEL ──────────────────────────────────────────────── */}
-        <div style={{
+        <div 
+        className="nutri-left"
+        style={{
           width: "40%",
           background: `linear-gradient(145deg, ${TOKEN.primary} 0%, ${TOKEN.primaryDark} 60%, #047857 100%)`,
           display: "flex",
@@ -243,6 +247,8 @@ export default function App() {
 
           {/* Illustration */}
           <div style={{
+            width: "100%",
+            maxWidth:200,
             flex: 1,
             display: "flex",
             alignItems: "center",
@@ -295,13 +301,15 @@ export default function App() {
         </div>
 
         {/* ── RIGHT PANEL ─────────────────────────────────────────────── */}
-        <div style={{
+        <div 
+        className="nutri-right"
+        style={{
           flex: 1,
           background: TOKEN.white,
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "48px 52px",
+          padding: "40px",
         }}>
           {/* Header */}
           <div style={{ marginBottom: 32 }}>
@@ -363,7 +371,7 @@ export default function App() {
                     background: "transparent",
                     fontSize: 14,
                     color: TOKEN.text,
-                    padding: "12px 0",
+                    padding: "10px 0",
                     fontFamily: TOKEN.fontBody,
                   }}
                 />
@@ -409,7 +417,7 @@ export default function App() {
                     background: "transparent",
                     fontSize: 14,
                     color: TOKEN.text,
-                    padding: "12px 0",
+                    padding: "10px 0",
                     fontFamily: TOKEN.fontBody,
                   }}
                 />

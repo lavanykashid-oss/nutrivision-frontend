@@ -182,3 +182,34 @@
     border-right-color: var(--border);
   }
 }
+
+@media (max-width: 768px) {
+
+  .nutri-card{
+      flex-direction: column !important;
+      width:100% !important;
+      max-width:420px !important;
+      min-height:auto !important;
+      border-radius:18px !important;
+  }
+
+  .nutri-left{
+      width:100% !important;
+      padding:28px 20px !important;
+      align-items:center;
+      text-align:center;
+  }
+
+  .nutri-right{
+      width:100% !important;
+      padding:28px 20px !important;
+  }
+
+  .nutri-left svg{
+      max-width:180px !important;
+  }
+
+  h1{
+      font-size:24px !important;
+  }
+}
