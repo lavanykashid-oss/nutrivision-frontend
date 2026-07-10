@@ -66,7 +66,7 @@ const navLinks = [
 
 export default function App() {
   const [sessions, setSessions] = useState(INITIAL_SESSIONS);
-  const [activeSessionId, setActiveSessionId] = useState("1");
+  const [activeSessionId, setActiveSessionId] = useState(null);
   const [currentSessionId, setCurrentSessionId] = useState(null);
   const [profile, setProfile] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
@@ -150,7 +150,7 @@ const loadProfile = async () => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      "http://localhost:5000/api/v1/coach/sessions",
+      `${import.meta.env.VITE_API_URL}/api/v1/coach/sessions`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -261,7 +261,7 @@ const deleteSession = async (sessionId) => {
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMsg]);
-    await loadSessions();
+    
     setInput("");
     setIsTyping(true);
 
@@ -269,8 +269,15 @@ const deleteSession = async (sessionId) => {
 
   const token = localStorage.getItem("token");
 
+  console.log("Sending:", {
+  message: msgText,
+  session_id: currentSessionId,
+});
+
+
+
   const response = await fetch(
-    "http://localhost:5000/api/v1/coach/chat",
+    `${import.meta.env.VITE_API_URL}/api/v1/coach/chat`,
     {
       method: "POST",
       headers: {
@@ -284,14 +291,21 @@ const deleteSession = async (sessionId) => {
       }),
     }
   );
+  console.log("Response status:", response.status);
+  
 
   const data = await response.json();
+
+  console.log("Coach response:", data);
 
   if (!currentSessionId) {
 
     setCurrentSessionId(data.session_id);
 
     setActiveSessionId(data.session_id);
+    
+    
+    
 
 }
 
@@ -303,6 +317,7 @@ const deleteSession = async (sessionId) => {
   };
 
   setMessages((prev) => [...prev, aiMsg]);
+  await loadSessions();
 
 } catch (error) {
 
