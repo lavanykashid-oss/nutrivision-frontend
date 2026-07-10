@@ -6,7 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FoodAnalysis from "./pages/FoodAnalysis";
 import History from "./pages/History";
 import Dashboard from "./pages/Dashboard";
-import Coach from "./pages/coach";
+import coach from "./pages/coach";
 
 function App() {
   return (
