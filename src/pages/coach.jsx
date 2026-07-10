@@ -6,14 +6,10 @@ import {
   MessageSquare,
   User,
   Bot,
-  Menu,
-  X,
   LogOut,
   ChevronRight,
   Sparkles,
   LayoutDashboard,
-  BarChart2,
-  LineChart,
   Home,
   MessageCircle,
   History,
@@ -70,24 +66,10 @@ export default function App() {
   const [currentSessionId, setCurrentSessionId] = useState(null);
   const [profile, setProfile] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
-  const [messages, setMessages] =  useState([
-    {
-      id: "init-user",
-      role: "user",
-      text: "How can I improve my diet for weight loss?",
-      timestamp: new Date(),
-    },
-    {
-      id: "init-ai",
-      role: "ai",
-      text:("weight loss"),
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] =  useState([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeNav, setActiveNav] = useState("Dashboard");
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
   const navigate = useNavigate();
@@ -131,9 +113,17 @@ const loadProfile = async () => {
       }
     );
 
+    if(!response.ok) {
+    throw new Error("Failed to fetch profile");
+}
+
+
     const data = await response.json();
 
+
+
     setProfile(data);
+    console.log("Messages API returned:", data);
 
   } catch (error) {
 
@@ -142,7 +132,7 @@ const loadProfile = async () => {
   }
 
 };
-
+  
   const loadSessions = async () => {
 
   try {
@@ -158,15 +148,24 @@ const loadProfile = async () => {
       }
     );
 
+    if (!response.ok) {
+    throw new Error("Failed to fetch sessions");
+}
+
     const data = await response.json();
 
+    
     setSessions(data);
 
-    if (data.length > 0){
-      setActiveSessionId(data[0].id);
-      loadMessages(data[0].id);
-    }
+    if (data.length === 0) {
+      setMessages([]);
+      setCurrentSessionId(null);
+      setActiveSessionId(null);
+}
 
+    
+
+    
   } catch (error) {
 
     console.error(error);
@@ -174,6 +173,7 @@ const loadProfile = async () => {
   }
 
 };
+
 const loadMessages = async (sessionId) => {
 
   try {
@@ -188,10 +188,20 @@ const loadMessages = async (sessionId) => {
         },
       }
     );
+    if (!response.ok) {
+    throw new Error("Failed to fetch message");
+}
 
 
 
     const data = await response.json();
+
+    console.log("Message:",data);
+
+    if (!Array.isArray(data)){
+       console.error("Expected array but got:", data);
+       return;
+    }
 
     const formattedMessages = data.map((msg) => ({
       id: msg.id,
@@ -211,6 +221,8 @@ const loadMessages = async (sessionId) => {
   }
 
 };
+
+
 
 const deleteSession = async (sessionId) => {
 
@@ -237,12 +249,27 @@ const deleteSession = async (sessionId) => {
       prev.filter((s) => s.id !== sessionId)
     );
 
+  const updatedSessions = sessions.filter((s) => s.id !== sessionId);
+
+  setSessions(updatedSessions);
+
+  if (currentSessionId === sessionId) {
+    if (updatedSessions.length > 0) {
+       setActiveSessionId(updatedSessions[0].id);
+       loadMessages(updatedSessions[0].id);
+    } else {
+       setMessages([]);
+       setCurrentSessionId(null);
+       setActiveSessionId(null);
+  }
+}
+
     // If the deleted chat is currently open
-    if (currentSessionId === sessionId) {
-      setMessages([]);
-      setCurrentSessionId(null);
-      setActiveSessionId(null);
-    }
+    // if (currentSessionId === sessionId) {
+    //   setMessages([]);
+    //   setCurrentSessionId(null);
+    //   setActiveSessionId(null);
+    // }
 
   } catch (error) {
     console.error(error);
@@ -292,6 +319,13 @@ const deleteSession = async (sessionId) => {
     }
   );
   console.log("Response status:", response.status);
+
+
+  if (!response.ok) {
+    throw new Error("Failed to send message");
+}
+
+
   
 
   const data = await response.json();
@@ -465,6 +499,7 @@ setIsTyping(false);
     <button
         onClick={() => {
             setActiveSessionId(session.id);
+            loadMessages(session.id);
             setSidebarOpen(false);
         }}
         className="w-full text-left px-3 py-2.5 flex items-start gap-2.5"
