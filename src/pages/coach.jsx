@@ -107,7 +107,8 @@ const loadProfile = async () => {
 
   try {
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") ||
+                  sessionStorage.getItem("token");
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/auth/profile`,
@@ -142,7 +143,8 @@ const loadProfile = async () => {
 
   try {
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
+                  sessionStorage.getItem("token");
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/coach/sessions`,
@@ -183,7 +185,8 @@ const loadMessages = async (sessionId) => {
 
   try {
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
+                  sessionStorage.getItem("token");
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/coach/session/${sessionId}`,
@@ -233,7 +236,8 @@ const deleteSession = async (sessionId) => {
 
   try {
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
+                  sessionStorage.getItem(token);
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/coach/session/${sessionId}`,
@@ -299,7 +303,8 @@ const deleteSession = async (sessionId) => {
 
     try {
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token")
+                sessionStorage.getItem("token");
 
   console.log("Sending:", {
   message: msgText,

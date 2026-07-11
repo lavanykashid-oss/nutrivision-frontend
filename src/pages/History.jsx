@@ -109,7 +109,8 @@ const fetchHistory = async () => {
 
   try {
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
+                  sessionStorage.getItem("token");
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/food/history`,
@@ -218,7 +219,8 @@ const totalMeals = meals.length;
 
   try {
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
+                  sessionStorage.getItem("token");
 
     await fetch(
       `${import.meta.env.VITE_API_URL}/api/v1/food/history/${mealId}`,
