@@ -80,6 +80,7 @@ const recentMeals = [
 
 export default function App() {
   const [activeNav, setActiveNav] = useState("Home");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
 
@@ -184,6 +185,30 @@ export default function App() {
           
             </div>
           </div>
+
+          {/* Mobile Menu */}
+                    {mobileMenuOpen && (
+                      <div className="md:hidden py-3 border-t border-border flex flex-col gap-1">
+                        {navLinks.map(({ label, icon: NavIcon, path }) => (
+                          <button
+                            key={label}
+                            onClick={() => { setActiveNav(label); setMobileMenuOpen(false); navigate(path); }}
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                              activeNav === label
+                                ? "bg-secondary text-primary"
+                                : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                            }`}
+                          >
+                            <NavIcon size={16} />
+                            {label}
+                          </button>
+                        ))}
+                        <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
+                          <LogOut size={16} />
+                          Logout
+                        </button>
+                      </div>
+                    )}
         </div>
       </header>
 
