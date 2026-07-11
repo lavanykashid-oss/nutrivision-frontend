@@ -91,6 +91,7 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeNav, setActiveNav] = useState("History");
   const [visibleCount, setVisibleCount] = useState(4);
   const [meals, setMeals] = useState([]);
   const navigate = useNavigate();
