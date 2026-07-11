@@ -296,20 +296,39 @@ const totalMeals = meals.length;
           
             </div>
             {/* Mobile hamburger */}
-            <button
-              className="md:hidden p-2 rounded-lg hover:bg-accent transition-colors"
-              onClick={() => {
-
-                navigate(link.path);
-                setMobileNavOpen(!mobileNavOpen)}}
-            >
-              {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+             <button
+                className="md:hidden p-2 rounded-lg hover:bg-accent text-muted-foreground"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
           </div>
         
 
         {/* Mobile nav drawer */}
-        {mobileNavOpen && (
+        {mobileMenuOpen && (
+                    <div className="md:hidden py-3 border-t border-border flex flex-col gap-1">
+                      {navLinks.map(({ label, icon: NavIcon, path }) => (
+                        <button
+                          key={label}
+                          onClick={() => { setActiveNav(label); setMobileMenuOpen(false); navigate(path); }}
+                          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                            activeNav === label
+                              ? "bg-secondary text-primary"
+                              : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                          }`}
+                        >
+                          <NavIcon size={16} />
+                          {label}
+                        </button>
+                      ))}
+                      <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
+                        <LogOut size={16} />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+        {/* {mobileNavOpen && (
           <div className="md:hidden bg-white border-t border-border px-4 py-3 flex flex-col gap-1">
             {navLinks.map((link) => (
               <button
@@ -326,7 +345,7 @@ const totalMeals = meals.length;
               </button>
             ))}
           </div>
-        )}
+        )} */}
       </header>
 
       {/* ── PAGE BODY ── */}

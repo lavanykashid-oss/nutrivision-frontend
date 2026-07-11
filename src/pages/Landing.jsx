@@ -148,10 +148,10 @@ export default function App() {
             </div> */}
 
             {/* Notification */}
-            <button className="relative w-9 h-9 rounded-lg bg-muted flex items-center justify-center hover:bg-accent transition-colors">
+            {/* <button className="relative w-9 h-9 rounded-lg bg-muted flex items-center justify-center hover:bg-accent transition-colors">
               <Bell className="w-4 h-4 text-muted-foreground" />
               <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-primary" />
-            </button>
+            </button> */}
 
             {/* Streak badge */}
             {/* <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary border border-primary/20">
@@ -174,6 +174,13 @@ export default function App() {
               <LogOut className="w-4 h-4" />
               Logout
             </button>
+            <button
+                className="md:hidden p-2 rounded-lg hover:bg-accent text-muted-foreground"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+
           
             </div>
           </div>
