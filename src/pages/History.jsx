@@ -238,97 +238,84 @@ const totalMeals = meals.length;
 };
 
   return (
-     <div
-      className="min-h-screen bg-background text-foreground"
-      style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
-    >
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
-            
-          </div>
-         
-
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1 ml-4 flex-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => 
-                    
-                    navigate(link.path)
-                }
-                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                   link.label === "History"
-                   ? "bg-primary/10 text-primary font-semibold"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                 }`}
-            
-              >
-                <link.icon className="w-4 h-4" />
-                {link.label}
-              </button>
-            ))}
-          </nav>
-
-          {/* Profile */}
-          {/* <div className="ml-auto flex items-center gap-2">
-            <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border text-sm text-foreground hover:bg-accent transition-colors">
-              <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                <User className="w-3.5 h-3.5 text-primary" />
+    <div className="min-h-screen bg-background" style={{ fontFamily: "Inter, sans-serif" }}>
+          {/* Navbar */}
+          <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+              <div className="flex items-center justify-between h-16">
+                {/* Logo */}
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <Leaf className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
+                </div>
+    
+                {/* Desktop Nav Links */}
+                <div className="hidden md:flex items-center gap-1">
+                  {navLinks.map(({ label, icon: NavIcon, path }) => (
+                    <button
+                      key={label}
+                      onClick={() => {
+                        setActiveNav(label);
+                        navigate(path);
+                      }}
+                      className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        activeNav === label
+                          ? "bg-secondary text-primary"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      }`}
+                    >
+                      <NavIcon size={15} />
+                      {label}
+                    </button>
+                  ))}
+                </div>
+    
+                {/* Logout + Mobile Toggle */}
+                <div className="flex items-center gap-2">
+                  <button 
+                  onClick={handleLogout}
+                  className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+                    <LogOut size={15} />
+                    Logout
+                  </button>
+                  <button
+                    className="md:hidden p-2 rounded-lg hover:bg-accent text-muted-foreground"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  >
+                    {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                  </button>
+                </div>
               </div>
-              <span className="hidden sm:inline font-medium">Profile</span>
-              <ChevronRight className="w-3.5 h-3.5 text-muted-foreground hidden sm:inline" />
-            </button> */}
-
-            <div className="hidden md:flex items-center">
-            <button 
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
-          
+    
+              {/* Mobile Menu */}
+              {mobileMenuOpen && (
+                <div className="md:hidden py-3 border-t border-border flex flex-col gap-1">
+                  {navLinks.map(({ label, icon: NavIcon, path }) => (
+                    <button
+                      key={label}
+                      onClick={() => { setActiveNav(label); setMobileMenuOpen(false); navigate(path); }}
+                      className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                        activeNav === label
+                          ? "bg-secondary text-primary"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      }`}
+                    >
+                      <NavIcon size={16} />
+                      {label}
+                    </button>
+                  ))}
+                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
+                    <LogOut size={16} />
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
-            {/* Mobile hamburger */}
-             <button
-                className="md:hidden p-2 rounded-lg hover:bg-accent text-muted-foreground"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-          </div>
-        
-
-        {/* Mobile nav drawer */}
-        {mobileMenuOpen && (
-                    <div className="md:hidden py-3 border-t border-border flex flex-col gap-1">
-                      {navLinks.map(({ label, icon: NavIcon, path }) => (
-                        <button
-                          key={label}
-                          onClick={() => { setActiveNav(label); setMobileMenuOpen(false); navigate(path); }}
-                          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                            activeNav === label
-                              ? "bg-secondary text-primary"
-                              : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                          }`}
-                        >
-                          <NavIcon size={16} />
-                          {label}
-                        </button>
-                      ))}
-                      <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
-                        <LogOut size={16} />
-                        Logout
-                      </button>
-                    </div>
-                  )}
+          </nav>
+    
+     
         {/* {mobileNavOpen && (
           <div className="md:hidden bg-white border-t border-border px-4 py-3 flex flex-col gap-1">
             {navLinks.map((link) => (
@@ -347,7 +334,6 @@ const totalMeals = meals.length;
             ))}
           </div>
         )} */}
-      </header>
 
       {/* ── PAGE BODY ── */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col lg:flex-row gap-6">
