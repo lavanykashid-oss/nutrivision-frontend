@@ -102,6 +102,12 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 const [activeNav, setActiveNav] = useState("Dashboard");
 const [dashboardData, setDashboardData] = useState(null);
 
+const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    navigate("/");
+  };
+
 useEffect(() => {
   fetchDashboard();
 }, []);
@@ -173,7 +179,9 @@ if (!dashboardData) {
 
             {/* Logout + Mobile Toggle */}
             <div className="flex items-center gap-2">
-              <button className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+              <button 
+              onClick={handleLogout}
+              className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
                 <LogOut size={15} />
                 Logout
               </button>
