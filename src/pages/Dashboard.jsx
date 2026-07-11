@@ -211,7 +211,9 @@ if (!dashboardData) {
                   {label}
                 </button>
               ))}
-              <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
+              <button 
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
                 <LogOut size={16} />
                 Logout
               </button>
