@@ -796,7 +796,7 @@ export default function App() {
           <p className="text-xs text-muted-foreground text-center">
             For informational purposes only. Consult a dietitian for medical advice.
           </p>
-          <p className="text-xs text-muted-foreground">© 2025 NutriVision AI</p>
+          <p className="text-xs text-muted-foreground">© 2026 NutriVision AI</p>
         </div>
       </footer>
     </div>
