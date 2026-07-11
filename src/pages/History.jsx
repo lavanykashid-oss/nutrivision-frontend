@@ -90,6 +90,7 @@ export default function App() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [search, setSearch] = useState("");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
   const [meals, setMeals] = useState([]);
   const navigate = useNavigate();
