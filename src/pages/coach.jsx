@@ -5,6 +5,7 @@ import {
   Leaf,
   MessageSquare,
   User,
+  Menu,
   Bot,
   LogOut,
   ChevronRight,
@@ -68,6 +69,8 @@ export default function App() {
   const [profile, setProfile] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
   const [messages, setMessages] =  useState([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeNav, setActiveNav] = useState("Coach");
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -399,55 +402,82 @@ setIsTyping(false);
   };
 
   return (
-    <div
-      className="min-h-screen bg-background text-foreground"
-      style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
-    >
+    <div className="min-h-screen bg-background" style={{ fontFamily: "Inter, sans-serif" }}>
       {/* Navbar */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-white" />
+      <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                <Leaf className="w-4 h-4 text-white" />
+              </div>
+              <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
             </div>
-            <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
-            
-          </div>
-         
-         
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1 ml-6 flex-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => 
-                  navigate(link.path)
-                }
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  link.label === "Coach"
-                    ? "bg-[#e6f2eb] text-[#2a7a4b]"
-                    : "text-[#6b8f70] hover:text-[#2a7a4b] hover:bg-[#edf4ee]"
-                }`}
-              >
-                <link.icon className="w-3.5 h-3.5" />
-                {link.label}
+            {/* Desktop Nav Links */}
+            <div className="hidden md:flex items-center gap-1">
+              {navLinks.map(({ label, icon: NavIcon, path }) => (
+                <button
+                  key={label}
+                  onClick={() => {
+                    setActiveNav(label);
+                    navigate(path);
+                  }}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    activeNav === label
+                      ? "bg-secondary text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                >
+                  <NavIcon size={15} />
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Logout + Mobile Toggle */}
+            <div className="flex items-center gap-2">
+              <button 
+              onClick={handleLogout}
+              className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+                <LogOut size={15} />
+                Logout
               </button>
-            ))}
-          </nav>
+              <button
+                className="md:hidden p-2 rounded-lg hover:bg-accent text-muted-foreground"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
+          </div>
 
-          <div className="flex-1 lg:flex-none" />
-
-          {/* Logout */}
-            <button 
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-3 border-t border-border flex flex-col gap-1">
+              {navLinks.map(({ label, icon: NavIcon, path }) => (
+                <button
+                  key={label}
+                  onClick={() => { setActiveNav(label); setMobileMenuOpen(false); navigate(path); }}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    activeNav === label
+                      ? "bg-secondary text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                >
+                  <NavIcon size={16} />
+                  {label}
+                </button>
+              ))}
+              <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
+          )}
         </div>
-      </header>
+      </nav>
 
       {/* Body */}
       <div className="flex flex-1 overflow-hidden relative">

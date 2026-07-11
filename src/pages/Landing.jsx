@@ -92,126 +92,82 @@ export default function App() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-background text-foreground"
-      style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
-    >
+     <div className="min-h-screen bg-background" style={{ fontFamily: "Inter, sans-serif" }}>
       {/* Navbar */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-white" />
+      <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                <Leaf className="w-4 h-4 text-white" />
+              </div>
+              <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
             </div>
-            <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
-            
-          </div>
 
-          {/* Nav Links */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map(({ label, icon: Icon, path}) => (
-              <button
-                key={label}
-                onClick={() =>{
-                  setActiveNav(label);
-                  navigate(path);
+            {/* Desktop Nav Links */}
+            <div className="hidden md:flex items-center gap-1">
+              {navLinks.map(({ label, icon: NavIcon, path }) => (
+                <button
+                  key={label}
+                  onClick={() => {
+                    setActiveNav(label);
+                    navigate(path);
                   }}
-                
-                
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
-                  activeNav === label
-                    ? "bg-secondary text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                {label}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    activeNav === label
+                      ? "bg-secondary text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                >
+                  <NavIcon size={15} />
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Logout + Mobile Toggle */}
+            <div className="flex items-center gap-2">
+              <button 
+              onClick={handleLogout}
+              className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+                <LogOut size={15} />
+                Logout
               </button>
-            ))}
-          </nav>
-
-          {/* Right side */}
-          <div className="flex items-center gap-3">
-            {/* Search */}
-            {/* <div
-              className={`hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 ${
-                searchFocused ? "border-primary bg-white shadow-sm" : "border-border bg-muted"
-              }`}
-            >
-              <Search className="w-3.5 h-3.5 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search foods..."
-                className="bg-transparent text-sm outline-none w-36 text-foreground placeholder:text-muted-foreground"
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-              />
-            </div> */}
-
-            {/* Notification */}
-            {/* <button className="relative w-9 h-9 rounded-lg bg-muted flex items-center justify-center hover:bg-accent transition-colors">
-              <Bell className="w-4 h-4 text-muted-foreground" />
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-primary" />
-            </button> */}
-
-            {/* Streak badge */}
-            {/* <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary border border-primary/20">
-              <span className="text-base">🔥</span>
-              <span className="text-sm font-semibold text-primary">{user.streak}</span>
-              <span className="text-xs text-muted-foreground">day streak</span>
-            </div> */}
-
-            {/* Avatar */}
-            {/* <div className="flex items-center gap-2.5 cursor-pointer group">
-              <img
-                src={user.avatar}
-                alt={user.name}
-                className="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all"
-              /> */}
-              <div className="hidden md:flex items-center">
-            <button 
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:bg-muted hover:text-foreground transition-colors">
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
-            <button
+              <button
                 className="md:hidden p-2 rounded-lg hover:bg-accent text-muted-foreground"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
                 {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
-
-          
             </div>
           </div>
 
           {/* Mobile Menu */}
-                    {mobileMenuOpen && (
-                      <div className="md:hidden py-3 border-t border-border flex flex-col gap-1">
-                        {navLinks.map(({ label, icon: NavIcon, path }) => (
-                          <button
-                            key={label}
-                            onClick={() => { setActiveNav(label); setMobileMenuOpen(false); navigate(path); }}
-                            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                              activeNav === label
-                                ? "bg-secondary text-primary"
-                                : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                            }`}
-                          >
-                            <NavIcon size={16} />
-                            {label}
-                          </button>
-                        ))}
-                        <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
-                          <LogOut size={16} />
-                          Logout
-                        </button>
-                      </div>
-                    )}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-3 border-t border-border flex flex-col gap-1">
+              {navLinks.map(({ label, icon: NavIcon, path }) => (
+                <button
+                  key={label}
+                  onClick={() => { setActiveNav(label); setMobileMenuOpen(false); navigate(path); }}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    activeNav === label
+                      ? "bg-secondary text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                >
+                  <NavIcon size={16} />
+                  {label}
+                </button>
+              ))}
+              <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent mt-1">
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
+          )}
         </div>
-      </header>
+      </nav>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-12 lg:py-16">
