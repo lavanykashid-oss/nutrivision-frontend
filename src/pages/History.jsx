@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import api from "../api/axios";
 import {
   Search,
   Calendar,
@@ -98,6 +99,7 @@ export default function App() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/");
   };
 
@@ -109,17 +111,22 @@ const fetchHistory = async () => {
 
   try {
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") ||
                   sessionStorage.getItem("token");
 
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/v1/food/history`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    // const response = await fetch(
+    //   `${import.meta.env.VITE_API_URL}/api/v1/food/history`,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+    
+
+    const response = await api.get("/food/history");
+
+    setMeals(response.data);
 
     const data = await response.json();
 
@@ -219,7 +226,7 @@ const totalMeals = meals.length;
 
   try {
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") ||
                   sessionStorage.getItem("token");
 
     await fetch(

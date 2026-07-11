@@ -143,7 +143,7 @@ const loadProfile = async () => {
 
   try {
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") ||
                   sessionStorage.getItem("token");
 
     const response = await fetch(
@@ -185,7 +185,7 @@ const loadMessages = async (sessionId) => {
 
   try {
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") ||
                   sessionStorage.getItem("token");
 
     const response = await fetch(
@@ -236,7 +236,7 @@ const deleteSession = async (sessionId) => {
 
   try {
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token")||
                   sessionStorage.getItem(token);
 
     const response = await fetch(
@@ -303,7 +303,7 @@ const deleteSession = async (sessionId) => {
 
     try {
 
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token") ||
                 sessionStorage.getItem("token");
 
   console.log("Sending:", {
