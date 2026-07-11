@@ -138,7 +138,9 @@ const fetchDashboard = async () => {
     console.error(error);
   }
 };
-
+if (!dashboardData) {
+  return <div>Loading...</div>;
+}
 
   return (
     <div className="min-h-screen bg-background" style={{ fontFamily: "Inter, sans-serif" }}>
