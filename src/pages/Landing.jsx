@@ -8,6 +8,7 @@ import {
   Home,
   ChevronRight,
   Zap,
+  Menu,
   Brain,
   TrendingUp,
   Bell,
