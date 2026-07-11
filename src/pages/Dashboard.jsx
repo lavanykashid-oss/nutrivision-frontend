@@ -384,7 +384,7 @@ if (!dashboardData) {
     <div className="w-10 h-10 rounded-lg overflow-hidden shadow-sm flex-shrink-0">
   {meal.image_url ? (
     <img
-      src={`${import.meta.env.VITE_API_URL}/${meal.image_url}`}
+      src={meal.image_url}
       alt={meal.meal_name}
       className="w-full h-full object-cover"
     />
