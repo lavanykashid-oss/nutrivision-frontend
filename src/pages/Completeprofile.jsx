@@ -444,7 +444,7 @@ export default function CompleteProfile() {
               disabled={loading}
               style={{
                 width:"100%",
-                marginTop="10",
+                marginTop:10,
                 padding: "14px",
                 border: "none",
                 borderRadius: TOKEN.radius,
