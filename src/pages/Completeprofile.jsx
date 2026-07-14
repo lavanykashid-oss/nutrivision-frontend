@@ -242,7 +242,63 @@ export default function CompleteProfile() {
         padding: 20,
       }}
     >
+        <style>{`
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+*{
+  box-sizing:border-box;
+}
+
+.complete-card{
+  display:flex;
+  max-width:900px;
+  width:100%;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.14);
+}
+
+.left-panel{
+  width:40%;
+}
+
+.right-panel{
+  flex:1;
+}
+
+@media (max-width:768px){
+
+  .complete-card{
+      flex-direction:column;
+  }
+
+  .left-panel{
+      width:100%;
+      padding:28px 24px !important;
+      min-height:280px;
+      text-align:center;
+  }
+
+  .right-panel{
+      padding:28px 20px !important;
+  }
+
+}
+
+@media (max-width:480px){
+
+  .right-panel{
+      padding:20px 16px !important;
+  }
+
+  h2{
+      font-size:22px !important;
+  }
+
+}
+`}</style>
       <div
+      className="complete-card"
         style={{
           display: "flex",
           maxWidth: 900,
@@ -255,8 +311,9 @@ export default function CompleteProfile() {
         {/* LEFT PANEL */}
 
         <div
+        className="left-panel"
           style={{
-            width: "40%",
+    
             background:
               "linear-gradient(145deg,#10B981 0%,#059669 55%,#047857 100%)",
             padding: 40,
@@ -321,8 +378,9 @@ export default function CompleteProfile() {
         {/* RIGHT PANEL */}
 
         <div
+        className="right-panel"
           style={{
-            flex: 1,
+        
             background: "white",
             padding: 40,
           }}
@@ -385,8 +443,9 @@ export default function CompleteProfile() {
               type="submit"
               disabled={loading}
               style={{
-                marginTop: 10,
-                padding: 14,
+                width:"100%",
+                marginTop="10",
+                padding: "14px",
                 border: "none",
                 borderRadius: TOKEN.radius,
                 background: TOKEN.primary,
