@@ -214,7 +214,9 @@ const totalFiber = meals.reduce(
 const totalHealthScore =
   meals.length > 0
     ? Math.round(
-        meals.reduce((sum, meal) => sum + 90, 0) / meals.length
+        meals.reduce((sum, meal) => sum + (meal.healthScore || 0),
+      0 
+    ) / meals.length
       )
     : 0;
 
@@ -455,78 +457,68 @@ const totalMeals = meals.length;
 
   {/* Nutrition Row */}
   
+<div className="mt-5 grid lg:grid-cols-12 gap-6">
 
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mt-5">
+  {/* LEFT SIDE - Nutrition Cards */}
+  <div className="lg:col-span-8">
 
-<div className="bg-emerald-50 rounded-xl p-3 text-center">
-<Flame className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
-<p className="text-lg font-bold">{meal.calories}</p>
-<p className="text-xs text-gray-500">Calories</p>
-</div>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 
+      {[
+        { icon: Flame, label: "Calories", value: meal.calories },
+        { icon: Beef, label: "Protein", value: meal.protein },
+        { icon: Wheat, label: "Carbs", value: meal.carbs },
+        { icon: Droplets, label: "Fats", value: meal.fat },
+        { icon: Apple, label: "Fiber", value: meal.fiber },
+        { icon: Candy, label: "Sugar", value: meal.sugar },
+        { icon: FlaskConical, label: "Sodium", value: meal.sodium },
+      ].map(({ icon: Icon, label, value }) => (
 
-    
-<div className="bg-emerald-50 rounded-xl p-3 text-center">
-<Beef className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
-<p className="text-lg font-bold">{meal.protein}</p>
-<p className="text-xs text-gray-500">Protien</p>
-</div>
+        <div
+          key={label}
+          className="bg-emerald-50 rounded-xl p-4 text-center shadow-sm hover:shadow-md transition"
+        >
+          <Icon className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
 
+          <p className="text-2xl font-bold">
+            {value}
+          </p>
 
-    <div className="bg-emerald-50 rounded-xl p-3 text-center">
-<Wheat className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
-<p className="text-lg font-bold">{meal.carbs}</p>
-<p className="text-xs text-gray-500">Carbs</p>
-</div>
+          <p className="text-sm text-gray-500">
+            {label}
+          </p>
 
-    <div className="bg-emerald-50 rounded-xl p-3 text-center">
-<Droplets className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
-<p className="text-lg font-bold">{meal.fat}</p>
-<p className="text-xs text-gray-500">Fats</p>
-</div>
+        </div>
 
-    <div className="bg-emerald-50 rounded-xl p-3 text-center">
-<Apple className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
-<p className="text-lg font-bold">{meal.fiber}</p>
-<p className="text-xs text-gray-500">Fiber</p>
-</div>
+      ))}
 
-
-    <div className="bg-emerald-50 rounded-xl p-3 text-center">
-<Candy className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
-<p className="text-lg font-bold">{meal.sugar}</p>
-<p className="text-xs text-gray-500">Sugar</p>
-</div>
-
-
-    <div className="bg-emerald-50 rounded-xl p-3 text-center">
-<FlaskConical className="w-5 h-5 text-emerald-600 mx-auto mb-1"/>
-<p className="text-lg font-bold">{meal.sodium}</p>
-<p className="text-xs text-gray-500">Sodium</p>
-</div>
+    </div>
 
   </div>
 
-  {/* Details */}
-  <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-6 mt-6">
 
-    {/* AI Info */}
-    
+  {/* RIGHT SIDE */}
+  <div className="lg:col-span-4 space-y-6">
 
     {/* Vitamins */}
+    <div className="grid grid-cols-2 gap-4">
     <div>
 
-      <h4 className="font-semibold mb-3">Vitamins</h4>
+      <h4 className="font-semibold mb-2">
+        Vitamins
+      </h4>
 
       <div className="flex flex-wrap gap-2">
 
         {meal.vitamins?.map((v, i) => (
+
           <span
             key={i}
             className="bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm"
           >
             {v}
           </span>
+
         ))}
 
       </div>
@@ -536,37 +528,46 @@ const totalMeals = meals.length;
     {/* Minerals */}
     <div>
 
-      <h4 className="font-semibold mb-3">Minerals</h4>
+      <h4 className="font-semibold mb-2">
+        Minerals
+      </h4>
 
       <div className="flex flex-wrap gap-2">
 
         {meal.minerals?.map((m, i) => (
+
           <span
             key={i}
             className="bg-blue-100 text-blue-700 rounded-full px-3 py-1 text-sm"
           >
             {m}
           </span>
+
         ))}
 
       </div>
 
     </div>
+    </div>
 
     {/* Tags */}
     <div>
 
-      <h4 className="font-semibold mb-3">Tags</h4>
+      <h4 className="font-semibold mb-2">
+        Tags
+      </h4>
 
       <div className="flex flex-wrap gap-2">
 
         {meal.tags?.map((tag, i) => (
+
           <span
             key={i}
             className="bg-yellow-100 text-yellow-700 rounded-full px-3 py-1 text-sm"
           >
             {tag}
           </span>
+
         ))}
 
       </div>
@@ -576,7 +577,7 @@ const totalMeals = meals.length;
     {/* Tips */}
     <div>
 
-      <h4 className="font-semibold text-green-700 mb-3">
+      <h4 className="font-semibold text-green-700 mb-2">
         Health Tips
       </h4>
 
@@ -588,25 +589,33 @@ const totalMeals = meals.length;
 
       </ul>
 
-      {meal.warnings?.length > 0 && (
-        <>
-          <h4 className="font-semibold text-red-600 mt-5">
-            Warnings
-          </h4>
-
-          <ul className="list-disc pl-5 mt-2 space-y-2 text-sm">
-
-            {meal.warnings.map((warning, i) => (
-              <li key={i}>{warning}</li>
-            ))}
-
-          </ul>
-        </>
-      )}
-
     </div>
 
+    {/* Warnings */}
+
+    {meal.warnings?.length > 0 && (
+
+      <div>
+
+        <h4 className="font-semibold text-red-600 mb-2">
+          Warnings
+        </h4>
+
+        <ul className="list-disc pl-5 space-y-2 text-sm">
+
+          {meal.warnings.map((warning, i) => (
+            <li key={i}>{warning}</li>
+          ))}
+
+        </ul>
+
+      </div>
+
+    )}
+
   </div>
+
+</div>
   <div className="bg-primary/5 rounded-xl p-3 mt-3">
 
 <h4 className="font-semibold flex items-center gap-2 mb-4">
@@ -627,13 +636,20 @@ AI Analysis
 </div>
 
 </div>
+<div className="mt-6 flex justify-start">
 
   <button
     onClick={() => deleteMeal(meal.id)}
-    className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold text-[15px] shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
+    className="flex items-center gap-2 px-6 py-3 rounded-xl
+               bg-primary text-primary-foreground
+               font-semibold shadow-lg
+               hover:scale-105 transition"
   >
     Delete Meal
   </button>
+
+</div>
+  
  
 </div>
          
