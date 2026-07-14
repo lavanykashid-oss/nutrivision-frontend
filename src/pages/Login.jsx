@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import{ Leaf,
 } from "lucide-react"
 // ─── NutriVision AI Design Tokens ───────────────────────────────────────────
@@ -167,7 +168,49 @@ export default function App() {
     setLoading(false);
   }
 };
+const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/v1/auth/google`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          credential: credentialResponse.credential,
+        }),
+      }
+    );
 
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.message);
+      return;
+    }
+
+    // Save JWT
+    localStorage.setItem("token", data.token);
+
+    // New Google user?
+    if (data.new_user) {
+      navigate("/completeprofile");
+    } else {
+      navigate("/landing");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Google login failed");
+  }
+};
+
+    
+
+   
+
+  
   return (
     <div style={{
       minHeight: "100vh",
@@ -543,36 +586,40 @@ export default function App() {
 
           {/* Google Button */}
           <button
-            type="button"
-            style={{
-              width: "100%",
-              padding: "12px",
-              background: "white",
-              color: TOKEN.text,
-              border: `1.5px solid ${TOKEN.border}`,
-              borderRadius: TOKEN.radius,
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: TOKEN.fontBody,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              transition: "all 0.2s ease",
-              boxShadow: TOKEN.shadow,
-            }}
-            onMouseOver={e => {
-              e.currentTarget.style.borderColor = TOKEN.primary;
-              e.currentTarget.style.background = TOKEN.primaryGhost;
-            }}
-            onMouseOut={e => {
-              e.currentTarget.style.borderColor = TOKEN.border;
-              e.currentTarget.style.background = "white";
-            }}
+            // type="button"
+            // style={{
+            //   width: "100%",
+            //   padding: "12px",
+            //   background: "white",
+            //   color: TOKEN.text,
+            //   border: `1.5px solid ${TOKEN.border}`,
+            //   borderRadius: TOKEN.radius,
+            //   fontSize: 14,
+            //   fontWeight: 500,
+            //   fontFamily: TOKEN.fontBody,
+            //   cursor: "pointer",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "center",
+            //   gap: 10,
+            //   transition: "all 0.2s ease",
+            //   boxShadow: TOKEN.shadow,
+            // }}
+            // onMouseOver={e => {
+            //   e.currentTarget.style.borderColor = TOKEN.primary;
+            //   e.currentTarget.style.background = TOKEN.primaryGhost;
+            // }}
+            // onMouseOut={e => {
+            //   e.currentTarget.style.borderColor = TOKEN.border;
+            //   e.currentTarget.style.background = "white";
+            // }}
           >
-            <GoogleIcon />
-            Continue with Google
+            <GoogleLogin
+  onSuccess={handleGoogleSuccess}
+  onError={() => {
+    console.log("Google Login Failed");
+  }}
+/>
           </button>
 
           {/* Sign Up */}

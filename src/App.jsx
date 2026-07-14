@@ -7,6 +7,7 @@ import FoodAnalysis from "./pages/FoodAnalysis";
 import History from "./pages/History";
 import Dashboard from "./pages/Dashboard";
 import Coach from "./pages/coach";
+import Completeprofile from "./pages/Completeprofile";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register/>}/>
+        <Route path="/completeprofile" element={<Completeprofile/>}/>
         
         
         <Route path="/landing" element={

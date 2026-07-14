@@ -395,6 +395,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [description, setDescription] = useState("");
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -467,6 +468,10 @@ export default function App() {
       formData.append("food_name", foodName);
     }
 
+    if (description.trim()) {
+    formData.append("description", description);
+}
+
     
     const token = localStorage.getItem("token")||
                   sessionStorage.getItem("token");
@@ -505,6 +510,7 @@ export default function App() {
     setFileName(null);
     setFoodName("");
     setError(null);
+    setDescription("");
   };
 
   return (
@@ -603,7 +609,29 @@ export default function App() {
                       </>
                     )}
                   </div>
+                  {/* Optional Description */}
 
+  <label className="block text-sm font-medium text-foreground mb-2">
+    Additional Description
+    <span className="text-muted-foreground font-normal">
+      {" "} (Optional)
+    </span>
+  </label>
+
+
+
+<div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input
+                      type="text"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Enter food description to get detailed analysis"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white border border-border rounded-xl text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                     
+                    />
+                  </div>
+                  
                   {/* Divider */}
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-px bg-border" />
@@ -625,6 +653,7 @@ export default function App() {
                       onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
                     />
                   </div>
+                  
 
                   {/* Error */}
                   {error && (
