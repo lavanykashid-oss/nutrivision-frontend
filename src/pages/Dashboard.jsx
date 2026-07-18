@@ -41,12 +41,7 @@ import { useNavigate } from "react-router-dom";
 //   { day: "Sun", calories: 0, protein: 0 },
 // ];
 
-const recentMeals = [
-  { name: "Chicken Biryani", time: "1:00 PM", calories: 420, icon: "🍛", macro: "Protein: 32g" },
-  { name: "Green Salad", time: "11:30 AM", calories: 120, icon: "🥗", macro: "Fiber: 8g" },
-  { name: "Paneer Bowl", time: "8:30 PM", calories: 350, icon: "🍲", macro: "Protein: 22g" },
-  { name: "Oats Breakfast", time: "7:00 AM", calories: 310, icon: "🥣", macro: "Carbs: 48g" },
-];
+
 
 // const navLinks = [
 //   { label: "Home", icon: Home },
@@ -104,6 +99,8 @@ export default function App() {
 const navigate = useNavigate(); 
 const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 const [activeNav, setActiveNav] = useState("Dashboard");
+const [selectedDate, setSelectedDate] = useState("");
+const [selectedWeekday, setSelectedWeekday] = useState("");
 const [dashboardData, setDashboardData] = useState(null);
 
 const handleLogout = () => {
@@ -114,7 +111,7 @@ const handleLogout = () => {
 
 useEffect(() => {
   fetchDashboard();
-}, []);
+}, [selectedDate, selectedWeekday]);
 
 const fetchDashboard = async () => {
 
@@ -123,14 +120,27 @@ const fetchDashboard = async () => {
     const token = localStorage.getItem("token")||
     sessionStorage.getItem("token");
 
-    const response = await 
-      fetch(`${import.meta.env.VITE_API_URL}/api/v1/food/dashboard`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    let url = `${import.meta.env.VITE_API_URL}/api/v1/food/dashboard`;
+
+const params = new URLSearchParams();
+
+if (selectedDate) {
+  params.append("date", selectedDate);
+}
+
+if (selectedWeekday) {
+  params.append("weekday", selectedWeekday);
+}
+
+if (params.toString()) {
+  url += `?${params.toString()}`;
+}
+
+const response = await fetch(url, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
     const data = await response.json();
 
@@ -229,11 +239,60 @@ if (!dashboardData) {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Page Header */}
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-0.5"></p>
-        </div>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
+  <div>
+    <h1 className="text-2xl font-bold text-foreground">
+      Dashboard
+    </h1>
+    <p className="text-sm text-muted-foreground">
+  {selectedDate
+      ? selectedDate
+      : selectedWeekday
+      ? `${selectedWeekday} (Current Week)`
+      : "Today"}
+</p>
+
+    <p className="text-sm text-muted-foreground">
+      View your daily nutrition summary
+    </p>
+  </div>
+
+  <div className="flex flex-wrap gap-3">
+
+    {/* Date Filter */}
+    <input
+      type="date"
+      value={selectedDate}
+      onChange={(e) => {
+        setSelectedDate(e.target.value);
+        setSelectedWeekday("");
+      }}
+      className="px-4 py-2 rounded-xl border border-border bg-white"
+    />
+
+    {/* Weekday Filter */}
+    <select
+      value={selectedWeekday}
+      onChange={(e) => {
+        setSelectedWeekday(e.target.value);
+        setSelectedDate("");
+      }}
+      className="px-4 py-2 rounded-xl border border-border bg-white"
+    >
+      <option value="">Today</option>
+      <option>Monday</option>
+      <option>Tuesday</option>
+      <option>Wednesday</option>
+      <option>Thursday</option>
+      <option>Friday</option>
+      <option>Saturday</option>
+      <option>Sunday</option>
+    </select>
+
+  </div>
+
+</div>
         {/* Stat Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
