@@ -18,12 +18,16 @@ import {
 } from "lucide-react";
 import {
   LineChart,
+  ComposedChart,
   Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  BarChart,
+  Bar,
+  Legend,
 } from "recharts";
 import { useNavigate } from "react-router-dom";
 
@@ -327,33 +331,54 @@ if (!dashboardData) {
                 <span className="flex items-center gap-1"><span className="w-3 h-0.5 bg-orange-400 inline-block rounded" />Protein</span>
               </div>
             </div>
-            <ResponsiveContainer width="100%" height={220}>
-              <LineChart data={dashboardData.weekly_data || []} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e6f0ea" />
-                <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#5a7a65" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: "#5a7a65" }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{ borderRadius: "10px", border: "1px solid #e6f0ea", fontSize: 12 }}
-                  labelStyle={{ fontWeight: 600 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="calories"
-                  stroke="#2d7a4f"
-                  strokeWidth={2.5}
-                  dot={{ fill: "#2d7a4f", r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="protein"
-                  stroke="#f5a623"
-                  strokeWidth={2.5}
-                  dot={{ fill: "#f5a623", r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+          <ResponsiveContainer width="100%" height={250}>
+  <BarChart
+    data={dashboardData.weekly_data || []}
+    margin={{ top: 5, right: 10, left: -15, bottom: 5 }}
+    barGap={5}
+  >
+    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+
+    <XAxis
+      dataKey="day"
+      tick={{ fontSize: 12 }}
+      axisLine={false}
+      tickLine={false}
+    />
+
+    <YAxis
+      axisLine={false}
+      tickLine={false}
+      tick={{ fontSize: 12 }}
+    />
+
+    <Tooltip
+      cursor={{ fill: "#f8fafc" }}
+      contentStyle={{
+        borderRadius: 12,
+        border: "1px solid #e5e7eb",
+      }}
+    />
+
+    <Legend />
+
+    <Bar
+      dataKey="calories"
+      fill="#2d7a4f"
+      radius={[8, 8, 0, 0]}
+      name="Calories"
+    />
+
+    <Bar
+      dataKey="protein"
+      fill="#f59e0b"
+      radius={[8, 8, 0, 0]}
+      name="Protein (g)"
+    />
+  </BarChart>
+</ResponsiveContainer>
+          
+            
             {/* Weekly summary strip */}
             <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-border">
               {[
