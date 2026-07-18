@@ -433,125 +433,136 @@ const totalMeals = meals.length;
       >
        
 
-
-       <div className="flex justify-between items-start">
-
-<div>
-
-<h3 className="text-xl font-bold">
-{meal.meal_name}
-</h3>
-
-</div>
-
-<div className="flex items-center gap-1 text-gray-500 text-sm">
-
-<Clock3 className="w-4 h-4"/>
-
-{new Date(meal.created_at).toLocaleString()}
-
-</div>
-
-</div>
        <div className="mt-4">
 
   {/* Nutrition Row */}
   
-<div className="mt-5 grid lg:grid-cols-12 gap-6">
+<div className="mt-0 grid lg:grid-cols-12 gap-8">
 
   {/* LEFT SIDE - Nutrition Cards */}
-  <div className="lg:col-span-8">
+  <div className="lg:col-span-4">
+<div className="w-full h-64 rounded-3xl overflow-hidden border border-gray-200 bg-gray-100">
+  <img
+    src={meal.image_url}
+    alt={meal.meal_name}
+    className="w-full h-full object-cover"
+  />
+</div>
+{/* Nutrition */}
+<div className="mt-3">
+  <h3 className="text-lg font-semibold text-emerald-900 mb-2">
+    Nutrition
+  </h3>
 
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+  <div className="space-y-0">
+    {[
+      {
+        icon: Flame,
+        label: "Calories",
+        value: meal.calories,
+        unit: "kcal",
+      },
+      {
+        icon: Beef,
+        label: "Protein",
+        value: meal.protein,
+        unit: "g",
+      },
+      {
+        icon: Wheat,
+        label: "Carbs",
+        value: meal.carbs,
+        unit: "g",
+      },
+      {
+        icon: Droplets,
+        label: "Fats",
+        value: meal.fat,
+        unit: "g",
+      },
+      {
+        icon: Apple,
+        label: "Fiber",
+        value: meal.fiber,
+        unit: "g",
+      },
+      {
+        icon: Candy,
+        label: "Sugar",
+        value: meal.sugar,
+        unit: "g",
+      },
+      {
+        icon: FlaskConical,
+        label: "Sodium",
+        value: meal.sodium,
+        unit: "mg",
+      },
+    ].map((item) => {
+      const Icon = item.icon;
 
-      {[
-        { icon: Flame, label: "Calories", value: meal.calories },
-        { icon: Beef, label: "Protein", value: meal.protein },
-        { icon: Wheat, label: "Carbs", value: meal.carbs },
-        { icon: Droplets, label: "Fats", value: meal.fat },
-        { icon: Apple, label: "Fiber", value: meal.fiber },
-        { icon: Candy, label: "Sugar", value: meal.sugar },
-        { icon: FlaskConical, label: "Sodium", value: meal.sodium },
-      ].map(({ icon: Icon, label, value }) => (
-
+      return (
         <div
-          key={label}
-          className="bg-emerald-50 rounded-xl p-4 text-center shadow-sm hover:shadow-md transition"
+          key={item.label}
+          className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-none"
         >
-          <Icon className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
+          {/* Left */}
+          <div className="flex items-center gap-2.5">
+            <Icon className="w-4.5 h-4.5 text-emerald-600" />
 
-          <p className="text-2xl font-bold">
-            {value}
-          </p>
+            <span className="text-[15px] text-gray-700 font-medium">
+              {item.label}
+            </span>
+          </div>
 
-          <p className="text-sm text-gray-500">
-            {label}
-          </p>
-
+          {/* Right */}
+          <div className="font-bold text-emerald-800 text-xl">
+            {item.value}
+            <span className="text-sm text-gray-500 ml-1 font-medium">
+              {item.unit}
+            </span>
+          </div>
         </div>
-
-      ))}
-
-    </div>
-
+      );
+    })}
+  </div>
+</div>
+   
   </div>
 
 
   {/* RIGHT SIDE */}
-  <div className="lg:col-span-4 space-y-6">
+  <div className="lg:col-span-7 space-y-6">
+    <div className="flex justify-between items-start">
 
-    {/* Vitamins */}
-    <div className="grid grid-cols-2 gap-4">
-    <div>
+  <div className="space-y-3">
 
-      <h4 className="font-semibold mb-2">
-        Vitamins
-      </h4>
+    <h2 className="text-3xl font-bold text-green-800 leading-tight">
+      {meal.meal_name}
+    </h2>
 
-      <div className="flex flex-wrap gap-2">
-
-        {meal.vitamins?.map((v, i) => (
-
-          <span
-            key={i}
-            className="bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm"
-          >
-            {v}
-          </span>
-
-        ))}
-
-      </div>
-
+    <div className="flex items-center gap-2 text-gray-500">
+      <Clock3 className="w-4 h-4" />
+      <span className="text-sm">
+        {new Date(meal.created_at).toLocaleString()}
+      </span>
     </div>
 
-    {/* Minerals */}
-    <div>
+  </div>
+  
 
-      <h4 className="font-semibold mb-2">
-        Minerals
-      </h4>
+  <button
+    onClick={() => deleteMeal(meal.id)}
+    className="w-10 h-10 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center hover:bg-red-100 transition"
+  >
+    <Trash2 className="w-5 h-5 text-red-500" />
+  </button>
+  
+  
+  
 
-      <div className="flex flex-wrap gap-2">
-
-        {meal.minerals?.map((m, i) => (
-
-          <span
-            key={i}
-            className="bg-blue-100 text-blue-700 rounded-full px-3 py-1 text-sm"
-          >
-            {m}
-          </span>
-
-        ))}
-
-      </div>
-
-    </div>
-    </div>
-
-    {/* Tags */}
-    <div>
+</div>
+ <div>
 
       <h4 className="font-semibold mb-2">
         Tags
@@ -574,20 +585,101 @@ const totalMeals = meals.length;
 
     </div>
 
-    {/* Tips */}
+   <div className="border-t border-gray-200 pt-6">
+
+  <div className="grid md:grid-cols-2 gap-8">
+
+    {/* Vitamins */}
+
     <div>
 
-      <h4 className="font-semibold text-green-700 mb-2">
+      <h4 className="flex items-center gap-2 font-semibold text-green-700 mb-3">
+        <Sparkles className="w-5 h-5" />
+        Vitamins
+      </h4>
+
+      <div className="flex flex-wrap gap-2">
+
+        {meal.vitamins?.map((vitamin, i) => (
+
+          <span
+            key={i}
+            className="px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium"
+          >
+            {vitamin}
+          </span>
+
+        ))}
+
+      </div>
+
+    </div>
+
+    {/* Minerals */}
+
+    <div>
+
+      <h4 className="flex items-center gap-2 font-semibold text-blue-700 mb-3">
+        <ShieldCheck className="w-5 h-5" />
+        Minerals
+      </h4>
+
+      <div className="flex flex-wrap gap-2">
+
+        {meal.minerals?.map((mineral, i) => (
+
+          <span
+            key={i}
+            className="px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium"
+          >
+            {mineral}
+          </span>
+
+        ))}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div className="border-t border-gray-200 pt-6">
+
+  <div className="grid md:grid-cols-2 gap-8">
+
+    {/* Health Tips */}
+
+    <div>
+
+      <h4 className="flex items-center gap-2 text-green-700 font-semibold mb-4">
+        <HeartPulse className="w-5 h-5" />
         Health Tips
       </h4>
 
-      <ul className="list-disc pl-5 space-y-2 text-sm">
+      <div className="space-y-3">
 
         {meal.healthTips?.map((tip, i) => (
-          <li key={i}>{tip}</li>
+
+          <div
+            key={i}
+            className="flex items-start gap-3"
+          >
+
+            <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-4 h-4 text-green-600" />
+            </div>
+
+            <p className="text-sm text-gray-700 leading-relaxed">
+              {tip}
+            </p>
+
+          </div>
+
         ))}
 
-      </ul>
+      </div>
 
     </div>
 
@@ -597,25 +689,40 @@ const totalMeals = meals.length;
 
       <div>
 
-        <h4 className="font-semibold text-red-600 mb-2">
+        <h4 className="flex items-center gap-2 text-red-600 font-semibold mb-4">
+          <BadgeAlert className="w-5 h-5" />
           Warnings
         </h4>
 
-        <ul className="list-disc pl-5 space-y-2 text-sm">
+        <div className="space-y-3">
 
           {meal.warnings.map((warning, i) => (
-            <li key={i}>{warning}</li>
+
+            <div
+              key={i}
+              className="flex items-start gap-3"
+            >
+
+              <div className="w-7 h-7 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                <BadgeAlert className="w-4 h-4 text-red-600" />
+              </div>
+
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {warning}
+              </p>
+
+            </div>
+
           ))}
 
-        </ul>
+        </div>
+        
 
       </div>
 
     )}
 
   </div>
-
-</div>
   <div className="bg-primary/5 rounded-xl p-3 mt-3">
 
 <h4 className="font-semibold flex items-center gap-2 mb-4">
@@ -636,17 +743,14 @@ AI Analysis
 </div>
 
 </div>
-<div className="mt-6 flex justify-start">
 
-  <button
-    onClick={() => deleteMeal(meal.id)}
-    className="flex items-center gap-2 px-6 py-3 rounded-xl
-               bg-primary text-primary-foreground
-               font-semibold shadow-lg
-               hover:scale-105 transition"
-  >
-    Delete Meal
-  </button>
+  
+
+</div>
+    
+
+    
+  </div>
 
 </div>
   

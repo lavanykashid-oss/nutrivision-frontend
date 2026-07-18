@@ -331,51 +331,106 @@ if (!dashboardData) {
                 <span className="flex items-center gap-1"><span className="w-3 h-0.5 bg-orange-400 inline-block rounded" />Protein</span>
               </div>
             </div>
-          <ResponsiveContainer width="100%" height={250}>
-  <BarChart
+
+            <ResponsiveContainer width="100%" height={300}>
+  <LineChart
     data={dashboardData.weekly_data || []}
-    margin={{ top: 5, right: 10, left: -15, bottom: 5 }}
-    barGap={5}
+    margin={{
+      top: 20,
+      right: 25,
+      left: 20,
+      bottom: 30,
+    }}
   >
-    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+    <CartesianGrid
+      stroke="#E5E7EB"
+      strokeDasharray="0"
+      vertical={true}
+    />
 
     <XAxis
       dataKey="day"
-      tick={{ fontSize: 12 }}
-      axisLine={false}
+      axisLine={{ stroke: "#CBD5E1" }}
       tickLine={false}
+      tick={{ fill: "#475569", fontSize: 12 }}
     />
 
+    {/* Left Axis */}
     <YAxis
-      axisLine={false}
-      tickLine={false}
-      tick={{ fontSize: 12 }}
-    />
-
-    <Tooltip
-      cursor={{ fill: "#f8fafc" }}
-      contentStyle={{
-        borderRadius: 12,
-        border: "1px solid #e5e7eb",
+      yAxisId="left"
+      orientation="left"
+      stroke="#15803d"
+      axisLine={{ stroke: "#15803d" }}
+      tick={{ fill: "#15803d", fontSize: 12 }}
+      label={{
+        value: "Calories",
+        angle: -90,
+        position: "insideLeft",
+        fill: "#15803d",
       }}
     />
 
-    <Legend />
+    {/* Right Axis */}
+    <YAxis
+      yAxisId="right"
+      orientation="right"
+      stroke="#F97316"
+      axisLine={{ stroke: "#F97316" }}
+      tick={{ fill: "#F97316", fontSize: 12 }}
+      label={{
+        value: "Protein (g)",
+        angle: 90,
+        position: "insideRight",
+        fill: "#F97316",
+      }}
+    />
 
-    <Bar
+    <Tooltip
+      cursor={{ stroke: "#CBD5E1" }}
+      contentStyle={{
+        borderRadius: 10,
+        border: "1px solid #E2E8F0",
+      }}
+    />
+
+    <Legend
+      verticalAlign="bottom"
+      height={30}
+      iconType="rect"
+    />
+
+    <Line
+      yAxisId="left"
       dataKey="calories"
-      fill="#2d7a4f"
-      radius={[8, 8, 0, 0]}
       name="Calories"
+      stroke="#15803d"
+      strokeWidth={3}
+      dot={{
+        r: 4,
+        fill: "#15803d",
+      }}
+      activeDot={{
+        r: 6,
+      }}
+      type="monotone"
     />
 
-    <Bar
+    <Line
+      yAxisId="right"
       dataKey="protein"
-      fill="#f59e0b"
-      radius={[8, 8, 0, 0]}
-      name="Protein (g)"
+      name="Protein"
+      stroke="#F97316"
+      strokeWidth={3}
+      dot={{
+        r: 4,
+        fill: "#F97316",
+      }}
+      activeDot={{
+        r: 6,
+      }}
+      type="monotone"
     />
-  </BarChart>
+  </LineChart>
 </ResponsiveContainer>
           
             
