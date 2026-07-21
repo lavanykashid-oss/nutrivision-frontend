@@ -601,42 +601,24 @@ const handleGoogleSuccess = async (credentialResponse) => {
           </div>
 
           {/* Google Button */}
-          <button
-            // type="button"
-            // style={{
-            //   width: "100%",
-            //   padding: "12px",
-            //   background: "white",
-            //   color: TOKEN.text,
-            //   border: `1.5px solid ${TOKEN.border}`,
-            //   borderRadius: TOKEN.radius,
-            //   fontSize: 14,
-            //   fontWeight: 500,
-            //   fontFamily: TOKEN.fontBody,
-            //   cursor: "pointer",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   justifyContent: "center",
-            //   gap: 10,
-            //   transition: "all 0.2s ease",
-            //   boxShadow: TOKEN.shadow,
-            // }}
-            // onMouseOver={e => {
-            //   e.currentTarget.style.borderColor = TOKEN.primary;
-            //   e.currentTarget.style.background = TOKEN.primaryGhost;
-            // }}
-            // onMouseOut={e => {
-            //   e.currentTarget.style.borderColor = TOKEN.border;
-            //   e.currentTarget.style.background = "white";
-            // }}
-          >
-            <GoogleLogin
-  onSuccess={handleGoogleSuccess}
-  onError={() => {
-    console.log("Google Login Failed");
+          
+          <div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
   }}
-/>
-          </button>
+>
+  <GoogleLogin
+    onSuccess={handleGoogleSuccess}
+    onError={() => console.log("Google Login Failed")}
+    theme="outline"
+    size="large"
+    shape="pill"
+    text="signin_with"
+    width="320"
+  />
+</div>
 
           {/* Sign Up */}
           <p style={{
