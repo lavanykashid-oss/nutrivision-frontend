@@ -266,28 +266,16 @@ const handleGoogleSuccess = async (credentialResponse) => {
 
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 1 }}>
-            {/* <div style={{
-              width: 38, height: 38, borderRadius: 10,
-              background: "rgba(255,255,255,0.2)",
-              backdropFilter: "blur(8px)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}> */}
-              {/* <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z" fill="white" opacity="0.9" />
-                <path d="M12 6c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="white" opacity="0.5" />
-              </svg> */}
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <img
+            {/* <img
                   src={logo}
                   alt="NutriVision AI"
                   className="h-11 w-auto object-contain"
-                />
-              </div>
-            {/* </div> */}
+                /> */}
+              
             <span style={{
               fontFamily: TOKEN.fontDisplay,
-              fontWeight: 700,
-              fontSize: 16,
+              fontWeight: 900,
+              fontSize: 26,
               color: "white",
               letterSpacing: "-0.3px",
             }}>NutriVision AI</span>
@@ -304,6 +292,27 @@ const handleGoogleSuccess = async (credentialResponse) => {
             zIndex: 1,
             padding: "24px 0 16px",
           }}>
+
+            <div
+  style={{
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+  }}
+>
+  <img
+    src={logo}
+    alt="NutriVision AI"
+    style={{
+      width: "340px",
+      maxWidth: "100%",
+      objectFit: "contain",
+      filter: "drop-shadow(0 10px 25px rgba(0,0,0,0.18))",
+    }}
+  />
+</div>
 
            
                       

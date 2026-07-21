@@ -23,6 +23,29 @@ import {
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
+const TOKEN = {
+  primary: "#10B981",
+  primaryDark: "#059669",
+  primaryLight: "#D1FAE5",
+  primaryGhost: "rgba(16,185,129,0.08)",
+  bg: "#F8FAFC",
+  white: "#FFFFFF",
+  surface: "#FFFFFF",
+  border: "#E2E8F0",
+  borderFocus: "#10B981",
+  text: "#0F172A",
+  textSecondary: "#475569",
+  textMuted: "#94A3B8",
+  error: "#EF4444",
+  radius: "12px",
+  radiusSm: "8px",
+  shadow: "0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05)",
+  shadowMd: "0 10px 25px -5px rgba(0,0,0,0.08), 0 4px 10px -5px rgba(0,0,0,0.05)",
+  shadowLg: "0 25px 50px -12px rgba(0,0,0,0.12)",
+  fontDisplay: "'Poppins', sans-serif",
+  fontBody: "'Inter', sans-serif",
+};
+
 const user = {
   name: "Sarah",
   avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&auto=format",
@@ -100,17 +123,25 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+             <div className="flex items-center gap-2.5">
+              {/* <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <img
                   src={logo}
                   alt="NutriVision AI"
                   className="h-11 w-auto object-contain"
                 />
                    
-              </div>
+              </div> */}
+              <div style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 1 }}>
+                          <img
+                                src={logo}
+                                alt="NutriVision AI"
+                                className="h-11 w-auto object-contain"
+                              />
+                              </div>
               <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
             </div>
+            
 
             {/* Desktop Nav Links */}
             <div className="hidden md:flex items-center gap-1">

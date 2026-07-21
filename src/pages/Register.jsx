@@ -365,19 +365,24 @@ export default function App() {
                 <path d="M12 6c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="white" opacity="0.5" />
               </svg>
             </div> */}
-
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <img
+<div style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 1 }}>
+            <img
                   src={logo}
                   alt="NutriVision AI"
                   className="h-11 w-auto object-contain"
                 />
-              </div>
+              
+            <span style={{
+              fontFamily: TOKEN.fontDisplay,
+              fontWeight: 700,
+              fontSize: 16,
+              color: "white",
+              letterSpacing: "-0.3px",
+            }}>NutriVision AI</span>
+          </div>
 
             
-            <span style={{ fontFamily: TOKEN.fontDisplay, fontWeight: 700, fontSize: 16, color: "white", letterSpacing: "-0.3px" }}>
-              NutriVision AI
-            </span>
+            
           </div>
 
           {/* Illustration */}

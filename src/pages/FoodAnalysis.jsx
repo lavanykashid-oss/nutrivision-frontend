@@ -28,6 +28,29 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router-dom";
 
+const TOKEN = {
+  primary: "#10B981",
+  primaryDark: "#059669",
+  primaryLight: "#D1FAE5",
+  primaryGhost: "rgba(16,185,129,0.08)",
+  bg: "#F8FAFC",
+  white: "#FFFFFF",
+  surface: "#FFFFFF",
+  border: "#E2E8F0",
+  borderFocus: "#10B981",
+  text: "#0F172A",
+  textSecondary: "#475569",
+  textMuted: "#94A3B8",
+  error: "#EF4444",
+  radius: "12px",
+  radiusSm: "8px",
+  shadow: "0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05)",
+  shadowMd: "0 10px 25px -5px rgba(0,0,0,0.08), 0 4px 10px -5px rgba(0,0,0,0.05)",
+  shadowLg: "0 25px 50px -12px rgba(0,0,0,0.12)",
+  fontDisplay: "'Poppins', sans-serif",
+  fontBody: "'Inter', sans-serif",
+};
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 const NutritionData = {
   name: "",
@@ -90,13 +113,13 @@ function Navbar() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <img
-  src={logo}
-  alt="NutriVision AI"
-  className="h-11 w-auto object-contain"
-/>
-            </div>
+       <div style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 1 }}>
+                                <img
+                                      src={logo}
+                                      alt="NutriVision AI"
+                                      className="h-11 w-auto object-contain"
+                                    />
+                                    </div>
             <span className="text-[15px] font-bold text-foreground tracking-tight">
               NutriVision <span className="text-primary">AI</span>
             </span>
