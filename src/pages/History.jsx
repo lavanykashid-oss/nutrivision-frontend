@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import logo from "../assets/logo.png";
 import api from "../api/axios";
 import {
   Search,
@@ -258,7 +259,12 @@ const totalMeals = meals.length;
                 {/* Logo */}
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                    <Leaf className="w-4 h-4 text-white" />
+                    <img
+                      src={logo}
+                      alt="NutriVision AI"
+                      className="h-11 w-auto object-contain"
+                    />
+                       
                   </div>
                   <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
                 </div>
@@ -429,8 +435,8 @@ const totalMeals = meals.length;
     filtered.map((meal) => (
       <div
         key={meal.id}
-        className="bg-white rounded-2xl border border-border p-4 hover:shadow-md transition-all"
-      >
+        className="bg-white rounded-2xl border border-border px-4 py-2 hover:shadow-md transition-all">
+      
        
 
        <div className="mt-4">
@@ -532,12 +538,12 @@ const totalMeals = meals.length;
 
 
   {/* RIGHT SIDE */}
-  <div className="lg:col-span-7 space-y-6">
+  <div className="lg:col-span-8 space-y-4">
     <div className="flex justify-between items-start">
 
   <div className="space-y-3">
 
-    <h2 className="text-3xl font-bold text-green-800 leading-tight">
+    <h2 className="text-3xl font-bold text-green-800 leading-tight m-0">
       {meal.meal_name}
     </h2>
 

@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import logo from "../assets/logo.png";
 import {
   Upload,
   Search,
@@ -68,7 +69,7 @@ const navLinks = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { label: "History", icon: History, path: "/history" },
   { label: "Coach", icon: MessageCircle, path: "/coach" },
-  { label: "Analytics", icon: BarChart2, path: "/analytics" },
+ 
 ];
 
 function Navbar() {
@@ -90,7 +91,11 @@ function Navbar() {
           {/* Logo */}
           <div className="flex items-center gap-2.5 flex-shrink-0">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-white" />
+              <img
+  src={logo}
+  alt="NutriVision AI"
+  className="h-11 w-auto object-contain"
+/>
             </div>
             <span className="text-[15px] font-bold text-foreground tracking-tight">
               NutriVision <span className="text-primary">AI</span>
@@ -776,7 +781,7 @@ export default function App() {
             </div>
 
             {/* Recent analyses card */}
-            <div className="bg-white rounded-2xl border border-border shadow-sm p-6">
+            {/* <div className="bg-white rounded-2xl border border-border shadow-sm p-6">
               <h3 className="font-semibold text-foreground mb-4 text-sm flex items-center justify-between">
                 Recent Analyses
                 <button className="text-xs text-primary font-medium hover:underline">
@@ -808,7 +813,7 @@ export default function App() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </aside>
         </div>
       </main>

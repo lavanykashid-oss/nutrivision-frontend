@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import logo from "../assets/logo.png";
 import {
   Send,
   Plus,
@@ -416,7 +417,12 @@ setIsTyping(false);
             {/* Logo */}
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
+                <img
+                  src={logo}
+                  alt="NutriVision AI"
+                  className="h-11 w-auto object-contain"
+                />
+                   
               </div>
               <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
             </div>

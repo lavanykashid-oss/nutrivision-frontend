@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../services/authService";
+import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import{ Leaf,
@@ -276,7 +277,11 @@ const handleGoogleSuccess = async (credentialResponse) => {
                 <path d="M12 6c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="white" opacity="0.5" />
               </svg> */}
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
+                <img
+                  src={logo}
+                  alt="NutriVision AI"
+                  className="h-11 w-auto object-contain"
+                />
               </div>
             {/* </div> */}
             <span style={{
@@ -299,8 +304,10 @@ const handleGoogleSuccess = async (credentialResponse) => {
             zIndex: 1,
             padding: "24px 0 16px",
           }}>
-            <BowlIllustration />
-          </div>
+
+           
+                      
+         </div>
 
           {/* Tagline */}
           <div style={{ zIndex: 1 }}>

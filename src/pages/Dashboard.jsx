@@ -1,4 +1,5 @@
 import { useState, useEffect} from "react";
+import logo from "../assets/logo.png";
 import {
   Flame,
   Dumbbell,
@@ -165,7 +166,12 @@ if (!dashboardData) {
             {/* Logo */}
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
+                <img
+                  src={logo}
+                  alt="NutriVision AI"
+                  className="h-11 w-auto object-contain"
+                />
+                   
               </div>
               <span className="font-bold text-lg text-foreground tracking-tight">NutriVision AI</span>
             </div>
@@ -392,7 +398,7 @@ if (!dashboardData) {
             </div>
 
             <ResponsiveContainer width="100%" height={300}>
-  <LineChart
+  <BarChart
     data={dashboardData.weekly_data || []}
     margin={{
       top: 20,
@@ -400,6 +406,7 @@ if (!dashboardData) {
       left: 20,
       bottom: 30,
     }}
+    barGap={8}
   >
     <CartesianGrid
       stroke="#E5E7EB"
@@ -445,7 +452,7 @@ if (!dashboardData) {
     />
 
     <Tooltip
-      cursor={{ stroke: "#CBD5E1" }}
+      cursor={{ fill: "#F8FAFC" }}
       contentStyle={{
         borderRadius: 10,
         border: "1px solid #E2E8F0",
@@ -458,38 +465,24 @@ if (!dashboardData) {
       iconType="rect"
     />
 
-    <Line
+    <Bar
       yAxisId="left"
       dataKey="calories"
       name="Calories"
-      stroke="#15803d"
-      strokeWidth={3}
-      dot={{
-        r: 4,
-        fill: "#15803d",
-      }}
-      activeDot={{
-        r: 6,
-      }}
-      type="monotone"
+      fill="#15803d"
+      radius={[6, 6, 0, 0]}
+      barSize={18}
     />
 
-    <Line
+    <Bar
       yAxisId="right"
       dataKey="protein"
       name="Protein"
-      stroke="#F97316"
-      strokeWidth={3}
-      dot={{
-        r: 4,
-        fill: "#F97316",
-      }}
-      activeDot={{
-        r: 6,
-      }}
-      type="monotone"
+      fill="#F97316"
+      radius={[6, 6, 0, 0]}
+      barSize={18}
     />
-  </LineChart>
+  </BarChart>
 </ResponsiveContainer>
           
             
