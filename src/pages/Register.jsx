@@ -613,23 +613,7 @@ export default function App() {
           </div>
 
           {/* Google */}
-          <button
-            type="button"
-            style={{
-              width: "100%", padding: "11px",
-              background: "white", color: TOKEN.text,
-              border: `1.5px solid ${TOKEN.border}`,
-              borderRadius: TOKEN.radius, fontSize: 13.5, fontWeight: 500,
-              fontFamily: TOKEN.fontBody, cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
-              transition: "all 0.2s ease", boxShadow: TOKEN.shadow,
-            }}
-            onMouseOver={e => { e.currentTarget.style.borderColor = TOKEN.primary; e.currentTarget.style.background = TOKEN.primaryGhost; }}
-            onMouseOut={e => { e.currentTarget.style.borderColor = TOKEN.border; e.currentTarget.style.background = "white"; }}
-          >
-            <GoogleIcon />
-            Continue with Google
-          </button>
+         
 
           {/* Login link */}
           <p style={{ textAlign: "center", fontSize: 13, color: TOKEN.textSecondary, marginTop: 18, marginBottom: 0 }}>
