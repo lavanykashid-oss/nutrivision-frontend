@@ -409,7 +409,7 @@ if (!dashboardData) {
           </div>
 
           {/* Weekly Overview */}
-          <div className="bg-card rounded-2xl p-5 shadow-sm border border-border">
+          <div className="bg-card rounded-2xl p-4 shadow-sm border border-border">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-semibold text-foreground">Weekly Overview</h2>
               <div className="flex items-center gap-3 text-xs text-muted-foreground">
@@ -418,14 +418,14 @@ if (!dashboardData) {
               </div>
             </div>
 
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
   <BarChart
     data={dashboardData.weekly_data || []}
     margin={{
-      top: 20,
-      right: 25,
-      left: 20,
-      bottom: 30,
+      top: 5,
+      right: 5,
+      left: 5,
+      bottom: 5,
     }}
     barGap={8}
   >
@@ -435,12 +435,19 @@ if (!dashboardData) {
       vertical={true}
     />
 
-    <XAxis
+    {/* <XAxis
       dataKey="day"
       axisLine={{ stroke: "#CBD5E1" }}
       tickLine={false}
       tick={{ fill: "#475569", fontSize: 12 }}
-    />
+    /> */}
+    <XAxis
+  dataKey="day"
+  height={25}
+  tick={{ fontSize: 11 }}
+  tickLine={false}
+  axisLine={false}
+/>
 
     {/* Left Axis */}
     <YAxis
@@ -449,12 +456,16 @@ if (!dashboardData) {
       stroke="#15803d"
       axisLine={{ stroke: "#15803d" }}
       tick={{ fill: "#15803d", fontSize: 12 }}
-      label={{
-        value: "Calories",
-        angle: -90,
-        position: "insideLeft",
-        fill: "#15803d",
-      }}
+      yAxisId="left"
+      width={35}
+      stroke="#15803d"
+      tick={{ fontSize: 11 }}
+      // label={{
+      //   value: "Calories",
+      //   angle: -90,
+      //   position: "insideLeft",
+      //   fill: "#15803d",
+      // }}
     />
 
     {/* Right Axis */}
@@ -464,12 +475,17 @@ if (!dashboardData) {
       stroke="#F97316"
       axisLine={{ stroke: "#F97316" }}
       tick={{ fill: "#F97316", fontSize: 12 }}
-      label={{
-        value: "Protein (g)",
-        angle: 90,
-        position: "insideRight",
-        fill: "#F97316",
-      }}
+      yAxisId="right"
+      orientation="right"
+      width={35}
+      stroke="#F97316"
+      tick={{ fontSize: 11 }}
+      // label={{
+      //   value: "Protein (g)",
+      //   angle: 90,
+      //   position: "insideRight",
+      //   fill: "#F97316",
+      // }}
     />
 
     <Tooltip
@@ -480,11 +496,11 @@ if (!dashboardData) {
       }}
     />
 
-    <Legend
-      verticalAlign="bottom"
-      height={30}
-      iconType="rect"
-    />
+    {/* <Legend
+  verticalAlign="top"
+  height={20}
+  iconSize={10}
+/> */}
 
     <Bar
       yAxisId="left"
@@ -492,7 +508,9 @@ if (!dashboardData) {
       name="Calories"
       fill="#15803d"
       radius={[6, 6, 0, 0]}
-      barSize={18}
+      barSize={24}
+      barGap={4}
+      barCategoryGap="18%"
     />
 
     <Bar
@@ -501,7 +519,10 @@ if (!dashboardData) {
       name="Protein"
       fill="#F97316"
       radius={[6, 6, 0, 0]}
-      barSize={18}
+      barSize={24}
+      barGap={4}
+      barCategoryGap="18%"
+     
     />
   </BarChart>
 </ResponsiveContainer>

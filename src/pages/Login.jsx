@@ -340,7 +340,7 @@ const handleGoogleSuccess = async (credentialResponse) => {
             </p>
 
             {/* Stats pills */}
-            <div style={{ display: "flex", gap: 8, marginTop: 20, flexWrap: "wrap" }}>
+            {/* <div style={{ display: "flex", gap: 8, marginTop: 20, flexWrap: "wrap" }}>
               {[["50K+", "Users"], ["98%", "Accuracy"], ["4.9★", "Rating"]].map(([val, label]) => (
                 <div key={label} style={{
                   background: "rgba(255,255,255,0.15)",
@@ -355,7 +355,7 @@ const handleGoogleSuccess = async (credentialResponse) => {
                   <span style={{ fontSize: 11, color: "rgba(255,255,255,0.7)" }}>{label}</span>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
 
