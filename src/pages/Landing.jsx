@@ -1,6 +1,13 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
+import FoodAnalysisSection from "../components/FoodAnalysisSection";
 import logo from "../assets/logo.png";
 import {
+  Upload,
+  Sparkles,
+  Flame,
+  Droplets,
+  AlertCircle,
+  CheckCircle2,
   Camera,
   LogOut,
   LayoutDashboard,
@@ -20,7 +27,7 @@ import {
   Star,
   BarChart3,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const TOKEN = {
@@ -58,6 +65,21 @@ const navLinks = [
   { label: "History", icon: History, path: "/history" },
   { label: "Coach", icon: MessageCircle, path: "/coach" },
 ];
+
+const NutritionData = {
+  name: "",
+  calories: 0,
+  protein: 0,
+  carbs: 0,
+  fat: 0,
+  fiber: 0,
+  sugar: 0,
+  sodium: 0,
+  vitamins: [],
+  healthScore: 0,
+  servingSize: "",
+  tags: [],
+}
 
 const featureCards = [
   {
@@ -103,11 +125,150 @@ const recentMeals = [
   { name: "Green Smoothie", calories: 180, time: "Yesterday", score: 88 },
   { name: "Avocado Toast", calories: 340, time: "Yesterday", score: 76 },
 ];
+function ResultPanel({ data, onReset }) {
+  const nutrientRows = [
+    { label: "Fiber", value: data.fiber, unit: "g", icon: Leaf, color: "#1a7f4b" },
+    { label: "Sugar", value: data.sugar, unit: "g", icon: Droplets, color: "#f59e0b" },
+    { label: "Sodium", value: data.sodium, unit: "mg", icon: Zap, color: "#3b82f6" },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 24 }}
+      transition={{ duration: 0.4 }}
+      className="space-y-4"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-foreground" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            {data.name}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-0.5">Serving: {data.servingSize}</p>
+        </div>
+        <button
+          onClick={onReset}
+          className="p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Tags */}
+      <div className="flex flex-wrap gap-2">
+        {data.tags.map((tag) => (
+          <span
+            key={tag}
+            className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      {/* Calories hero */}
+      <div className="bg-gradient-to-br from-primary to-emerald-600 text-white rounded-2xl p-5 flex items-center justify-between">
+        <div>
+          <p className="text-white/70 text-sm font-medium">Total Calories</p>
+          <p
+            className="text-5xl font-bold mt-1"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            {data.calories}
+          </p>
+          <p className="text-white/70 text-xs mt-1">kcal per serving</p>
+        </div>
+        <Flame className="w-14 h-14 text-white/30" />
+      </div>
+
+      {/* Macros */}
+      <div className="bg-white rounded-2xl p-5 border border-border shadow-sm">
+        <p className="text-sm font-semibold text-foreground mb-4">Macronutrients</p>
+        <div className="grid grid-cols-3 gap-4">
+          <MacroRing value={data.protein} max={50} color="#1a7f4b" label="Protein" unit="g" />
+          <MacroRing value={data.carbs} max={100} color="#f59e0b" label="Carbs" unit="g" />
+          <MacroRing value={data.fat} max={65} color="#3b82f6" label="Fat" unit="g" />
+        </div>
+      </div>
+
+      {/* Health score */}
+      <HealthScoreBadge score={data.healthScore} />
+
+      {/* Other nutrients */}
+      <div className="bg-white rounded-2xl p-5 border border-border shadow-sm space-y-3">
+        <p className="text-sm font-semibold text-foreground">Other Nutrients</p>
+        {nutrientRows.map(({ label, value, unit, icon: Icon, color }) => (
+          <div key={label} className="flex items-center gap-3">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ background: `${color}20` }}
+            >
+              <Icon className="w-4 h-4" style={{ color }} />
+            </div>
+            <div className="flex-1">
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-muted-foreground font-medium">{label}</span>
+                <span className="text-foreground font-semibold">
+                  {value}
+                  {unit}
+                </span>
+              </div>
+              <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{
+                    width: `${Math.min((value / (label === "Sodium" ? 500 : 30)) * 100, 100)}%`,
+                    background: color,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Vitamins */}
+      <div className="bg-white rounded-2xl p-5 border border-border shadow-sm">
+        <p className="text-sm font-semibold text-foreground mb-3">Vitamins & Minerals</p>
+        <div className="flex flex-wrap gap-2">
+          {data.vitamins.map((v) => (
+            <div key={v} className="flex items-center gap-1.5 text-xs text-primary font-medium">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              {v}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Analyze again */}
+      <button
+        onClick={onReset}
+        className="w-full py-3 rounded-xl border border-primary text-primary font-semibold text-sm hover:bg-secondary transition-colors"
+      >
+        Analyze Another Food
+      </button>
+    </motion.div>
+  );
+}
+
 
 export default function App() {
   const [activeNav, setActiveNav] = useState("Home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+    const [foodName, setFoodName] = useState("");
+  const [dragActive, setDragActive] = useState(false);
+  const [preview, setPreview] = useState(null);
+  const [fileName, setFileName] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [description, setDescription] = useState("");
+  const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -115,12 +276,116 @@ export default function App() {
     sessionStorage.removeItem("token");
     navigate("/");
   };
+    const handleFile = (file) => {
+    if (!file.type.startsWith("image/")) {
+      setError("Please upload a valid image file (JPG, PNG).");
+      return;
+    }
+    setError(null);
+    setSelectedFile(file);
+    
+    setFileName(file.name);
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        setPreview(e.target.result);
+    };
+    reader.readAsDataURL(file);
+    
+  };
+
+  const onDrop = useCallback((e) => {
+    e.preventDefault();
+    setDragActive(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleFile(file);
+  }, []);
+
+  const onFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) handleFile(file);
+  };
+
+  const canAnalyze = foodName.trim().length > 0 || preview !== null;
+
+  const handleAnalyze = async () => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    const formData = new FormData();
+
+    if (selectedFile) {
+      formData.append("image", selectedFile);
+    }
+
+    if (foodName.trim()){
+      formData.append("food_name", foodName);
+    }
+
+    if (description.trim()) {
+    formData.append("description", description);
+}
+
+    
+    const token = localStorage.getItem("token")||
+                  sessionStorage.getItem("token");
+
+    
+    const response = await 
+      fetch(`${import.meta.env.VITE_API_URL}/api/v1/food/analyze`,
+      {
+        method: "POST", 
+        headers : {
+          Authorization : `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+    console.log("API Response:", data);
+
+    
+
+    setResult(data);
+    
+
+  } catch (error) {
+    console.error(error);
+    setError("Server connection Failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  const handleReset = () => {
+    setResult(null);
+    setPreview(null);
+    setFileName(null);
+    setFoodName("");
+    setError(null);
+    setDescription("");
+  };
+
+  const scrollToAnalysis = () => {
+    document
+        .getElementById("analyze")
+        ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+};
+  
 
   return (
      <div className="min-h-screen bg-background" style={{ fontFamily: "Inter, sans-serif" }}>
       {/* Navbar */}
       <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        
+         <div className="w-full px-6 lg:px-10">
+       
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
              <div className="flex items-center gap-2.5">
@@ -251,7 +516,7 @@ export default function App() {
             {/* CTAs */}
             <div className="flex flex-wrap gap-4">
               <motion.button
-              onClick={() => navigate("/food-analysis")}
+              onClick={scrollToAnalysis}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-[15px] shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
@@ -260,43 +525,24 @@ export default function App() {
                 Analyze Food
                 <ArrowRight className="w-4 h-4 ml-0.5" />
               </motion.button>
-
-              <motion.button
+     
+              {/* <motion.button
+              onClick={() => navigate("/food-analysis")}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl border-2 border-primary/30 text-primary font-semibold text-[15px] bg-white hover:bg-secondary hover:border-primary/50 transition-all duration-200"
+                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-[15px] shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
               >
-                <BarChart3 className="w-[18px] h-[18px]" />
-                Explore Features
-              </motion.button>
+                <Camera className="w-4.5 h-4.5 w-[18px] h-[18px]" />
+                Analyze Food
+                <ArrowRight className="w-4 h-4 ml-0.5" />
+              </motion.button> */}
+
+              
             </div>
 
             {/* Social proof */}
             <div className="flex items-center gap-4 mt-8 pt-8 border-t border-border">
-              {/* <div className="flex -space-x-2">
-                {[
-                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&auto=format",
-                  "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=40&h=40&fit=crop&auto=format",
-                  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&auto=format",
-                ].map((src, i) => (
-                  <img
-                    key={i}
-                    src={src}
-                    alt="User"
-                    className="w-8 h-8 rounded-full object-cover ring-2 ring-white"
-                  />
-                ))}
-              </div> */}
-              {/* <div>
-                <div className="flex items-center gap-1 mb-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  <span className="font-semibold text-foreground">12,400+</span> healthy meals analyzed today
-                </p>
-              </div> */}
+           
             </div>
           </motion.div>
 
@@ -307,17 +553,16 @@ export default function App() {
             transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
             className="relative"
           >
-            {/* Main image card */}
             <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary/10">
               <img
                 src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=700&h=480&fit=crop&auto=format"
                 alt="Healthy colorful meal bowl"
                 className="w-full h-80 lg:h-96 object-cover"
               />
-              {/* Overlay gradient */}
+              
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-              {/* Floating analysis card */}
+             
               <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
                 <div className="flex items-center justify-between mb-3">
                   <div>
@@ -346,81 +591,45 @@ export default function App() {
               </div>
             </div>
 
-            {/* Floating badge */}
             <div className="absolute -top-3 -right-3 bg-primary text-white rounded-xl px-3.5 py-2 shadow-lg shadow-primary/30">
               <p className="text-xs font-semibold">Health Score</p>
               <p className="text-xl font-extrabold leading-none">92/100</p>
             </div>
-          </motion.div>
+          </motion.div> 
         </section>
 
-        {/* Feature Cards */}
-        <section className="mb-20">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-2">
-                Everything you need
-              </h2>
-              <p className="text-muted-foreground">
-                Powerful tools to help you eat smarter and live healthier.
-              </p>
-            </div>
-            {/* <a
-              href="#features"
-              className="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-            >
-              See all features <ChevronRight className="w-4 h-4" />
-            </a> */}
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {featureCards.map(({ icon: Icon, title, description, color, iconColor, stat, statLabel }, i) => (
-              <motion.div
-                key={title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 + i * 0.08 }}
-                className="group bg-white rounded-2xl p-6 border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-250 cursor-pointer"
-              >
-                <div className={`w-11 h-11 rounded-xl ${color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}>
-                  <Icon className={`w-5 h-5 ${iconColor}`} />
-                </div>
-                <h3 className="text-base font-bold text-foreground mb-2">{title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">{description}</p>
-                <div className="pt-4 border-t border-border flex items-baseline gap-1.5">
-                  <span className="text-xl font-extrabold text-foreground">{stat}</span>
-                  <span className="text-xs text-muted-foreground">{statLabel}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+{/* Food Analysis */}
+<section id="analyze" className="py-20">
+    <FoodAnalysisSection
+    foodName={foodName}
+    setFoodName={setFoodName}
+    preview={preview}
+    setPreview={setPreview}
+    fileName={fileName}
+    setFileName={setFileName}
+    description={description}
+    setDescription={setDescription}
+    loading={loading}
+    result={result}
+    setResult={setResult}
+    error={error}
+    handleAnalyze={handleAnalyze}
+    handleReset={handleReset}
+    dragActive={dragActive}
+    setDragActive={setDragActive}
+    fileInputRef={fileInputRef}
+    onDrop={onDrop}
+    onFileChange={onFileChange}
+    canAnalyze={canAnalyze}
+    
+/>
+</section>
+</main>
 
-        {/* Recent Meals + Quick Stats */}
-        {/*  */}
-      </main>
-
-      {/* Footer strip */}
-      {/* <footer className="border-t border-border mt-16 py-6">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded bg-primary flex items-center justify-center">
-              <Leaf className="w-3 h-3 text-white" />
-            </div>
-            <span className="text-sm font-semibold text-foreground">NutriVision AI</span>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            © 2026 NutriVision AI. Eat smart, live well.
-          </p>
-          <div className="flex gap-5">
-            {["Privacy", "Terms", "Support"].map((l) => (
-              <a key={l} href="#" className="text-xs text-muted-foreground hover:text-primary transition-colors">
-                {l}
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer> */}
+    
     </div>
   );
 }
+
+

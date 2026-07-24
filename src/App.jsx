@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register"
 import Landing from "./pages/Landing"
 import ProtectedRoute from "./components/ProtectedRoute";
-import FoodAnalysis from "./pages/FoodAnalysis";
+// import FoodAnalysis from "./pages/FoodAnalysis";
 import History from "./pages/History";
 import Dashboard from "./pages/Dashboard";
 import Coach from "./pages/coach";
@@ -23,11 +23,11 @@ function App() {
           <Landing/>
         </ProtectedRoute>
       }/>
-         <Route path="/food-analysis" element={
+         {/* <Route path="/food-analysis" element={
           <ProtectedRoute>
           <FoodAnalysis/>
           </ProtectedRoute> 
-        }/>
+        }/> */}
         <Route path="/history" element={
           <ProtectedRoute>
           <History/>
